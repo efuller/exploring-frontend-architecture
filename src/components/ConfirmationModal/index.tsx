@@ -1,4 +1,4 @@
-import React, {Fragment, SetStateAction} from 'react'
+import React, { Fragment, SetStateAction } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/24/outline'
 

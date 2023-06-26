@@ -5,8 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useFoods } from "./hooks/useFoods";
 import { useFavorites } from "./hooks/useFavorites";
 import { FoodModel } from "./models/foodModel.ts";
-import {useConfirmationModal} from "./components/ConfirmationModal/useConfirmationModal.ts";
-import {ConfirmationModal} from "./components/ConfirmationModal";
+import { useConfirmationModal } from "./components/ConfirmationModal/useConfirmationModal.ts";
+import { ConfirmationModal } from "./components/ConfirmationModal";
 
 import './App.css'
 

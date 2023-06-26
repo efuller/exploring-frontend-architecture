@@ -8,3 +8,6 @@ This is a small frontend application that was built to explore different variati
 - A user can favorite a food item
 - Favorites are saved to local storage so they are persistent on page reloads
 - When a favorite is deleted, the user will have to confirm deletion
+
+## Issues
+- [ ] The favorite button doesn't turn red until after a reload 😤

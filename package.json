@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "jest",
+    "test:dev": "jest --watchAll"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",
@@ -21,6 +23,7 @@
   "devDependencies": {
     "@mswjs/data": "^0.13.0",
     "@tailwindcss/forms": "^0.5.3",
+    "@types/jest": "^29.5.5",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
@@ -30,6 +33,7 @@
     "eslint": "^8.38.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
+    "jest": "^29.7.0",
     "msw": "^1.2.2",
     "postcss": "^8.4.24",
     "tailwindcss": "^3.3.2",

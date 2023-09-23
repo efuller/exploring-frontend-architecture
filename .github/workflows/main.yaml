@@ -1,0 +1,35 @@
+name: Test & Deploy
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - main
+jobs:
+    build:
+        name: Build & Deploy
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v4
+
+          - name: NPM Install
+            run: npm ci
+
+          - name: Build
+            run: npm run build
+
+    deploy:
+      name: Deploy to render.com
+      runs-on: ubuntu-latest
+      steps:
+        - name: Wait for Render Deployment
+          uses: bounceapp/render-action@0.6.0
+          with:
+            render-token: ${{ secrets.RENDER_TOKEN }}
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            service-id: ${{ secrets.RENDER_SERVICE_ID }}
+            retries: 20
+            wait: 16000
+            sleep: 30000

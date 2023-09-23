@@ -12,7 +12,7 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Deploy to production
-          uses: johnbeynon/render-deploy-action@0.0.8
+          uses: johnbeynon/render-deploy-action@v0.0.8
           with:
             api-key: ${{ secrets.RENDER_TOKEN }}
             service-id: ${{ secrets.RENDER_SERVICE_ID }}

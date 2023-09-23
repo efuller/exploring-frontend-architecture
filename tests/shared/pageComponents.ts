@@ -1,7 +1,7 @@
 import { PuppeteerPageDriver } from "./driver/pupeteerPageDriver";
 import { ElementHandle } from "puppeteer";
 
-type ElementType = 'div' | 'input';
+type ElementType = 'div' | 'input' | 'button' | 'ul';
 
 interface ElementsConfig {
   selector: string,
@@ -38,8 +38,6 @@ export class PageComponents {
       const elementConfig = this.config.elements[key];
       const element = await page.$(elementConfig.selector);
 
-      console.log('element', element);
-
       if (!element) {
         throw new Error(`Could not find element with selector ${elementConfig.selector}`);
       }
@@ -52,7 +50,7 @@ export class PageComponents {
   }
 
   get(key: string) {
-    return this.loadedPageComponents[key];
+    return this.loadedPageComponents[key].element;
   }
 }
 

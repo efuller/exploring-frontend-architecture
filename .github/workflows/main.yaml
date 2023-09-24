@@ -18,7 +18,7 @@ jobs:
             service-id: ${{ secrets.RENDER_SERVICE_ID }}
 
     watch:
-      name: Deploy to render.com
+      name: Monitor Render Deployment
       runs-on: ubuntu-latest
       steps:
         - name: Wait for Render Deployment
@@ -30,3 +30,15 @@ jobs:
             retries: 20
             wait: 16000
             sleep: 30000
+
+    end-to-end:
+      name: End to End Tests
+      runs-on: ubuntu-latest
+      needs: [deploy, watch]
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+        - name: Install dependencies
+          run: npm install
+        - name: Run e2e tests
+          run: npm run test:e2e

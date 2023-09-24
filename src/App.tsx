@@ -108,14 +108,14 @@ function App() {
             <h1 className="text-grey-darkest">Favorite Foods</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex mt-4">
-                <input {...register('title', { required: true })} required className="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker" placeholder="Add Food" />
-                <button type="submit" className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal">Add</button>
+                <input {...register('title', { required: true })} required className="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker" id="food-input" placeholder="Add Food" />
+                <button id="submit-btn" type="submit" className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal">Add</button>
               </div>
             </form>
           </div>
           {
             foods.length > 0 ? (
-              <ul>
+              <ul id="food-list">
                 {
                   foods.map((food) => (
                     <li key={food.id} className="flex mb-4 border p-2 text-left pl-6 items-center">

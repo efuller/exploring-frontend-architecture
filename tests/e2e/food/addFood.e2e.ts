@@ -12,7 +12,7 @@ defineFeature(feature, (test) => {
     let mainPage: MainPage;
 
     beforeAll(async () => {
-      pageDriver = await PuppeteerPageDriver.create({ headless: false, slowMo: 100 });
+      pageDriver = await PuppeteerPageDriver.create({ headless: true });
       mainPage = new MainPage(pageDriver);
     });
 

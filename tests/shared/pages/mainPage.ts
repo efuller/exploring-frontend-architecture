@@ -46,8 +46,13 @@ export class MainPage {
   }
 
   async open() {
+    let url = 'http://localhost:5173';
+
+    if (process.env.NODE_ENV === 'production') {
+      url = 'https://explore-frontend-architecture.onrender.com/';
+    }
     const page = this.pageDriver.getPage();
     // TODO: Make this configurable.
-    await page.goto('http://localhost:5173');
+    await page.goto(url);
   }
 }

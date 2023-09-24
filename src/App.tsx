@@ -79,8 +79,6 @@ function App() {
 
     // Reset form.
     reset();
-
-    // Could check for errors and display a message.
   };
 
   useEffect(() => {

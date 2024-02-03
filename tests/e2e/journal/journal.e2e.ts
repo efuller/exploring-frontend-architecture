@@ -25,16 +25,16 @@ defineFeature(feature, (test) => {
       await mainPage.open();
     });
 
-    when('The user adds a new journal called steak', async () => {
+    when(/^The user adds a new journal called (.*)$/, async (journal) => {
       newJournalInput = {
-        title: 'steak'
+        title: journal
       }
 
       await mainPage.addNewJournal(newJournalInput);
     });
 
-    then('The user should be able to verify that steak is added to the list', async () => {
-      expect(await mainPage.journalTitleToBeInList(newJournalInput.title)).toBe(true);
+    then(/^The user should be able to verify that (.*) is added to the list$/, async (journal) => {
+      expect(await mainPage.journalTitleToBeInList(journal)).toBe(true);
     });
   });
 });

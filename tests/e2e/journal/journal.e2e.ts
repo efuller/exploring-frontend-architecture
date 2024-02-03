@@ -3,11 +3,11 @@ import { MainPage } from "../../shared/pages/mainPage";
 import { PuppeteerPageDriver } from "../../shared/driver/pupeteerPageDriver";
 import { createJournalDto } from "../../../src/dto/createJournalDto";
 
-const feature = loadFeature('tests/e2e/food/addFood.feature');
+const feature = loadFeature('tests/e2e/journal/journal.feature');
 
 defineFeature(feature, (test) => {
-  test('Adding a food', ({ given, when, then }) => {
-    let newFoodInput: createJournalDto;
+  test('Adding a journal', ({ given, when, then }) => {
+    let newJournalInput: createJournalDto;
     let pageDriver: PuppeteerPageDriver;
     let mainPage: MainPage;
 
@@ -25,16 +25,16 @@ defineFeature(feature, (test) => {
       await mainPage.open();
     });
 
-    when('The user adds a new food called steak', async () => {
-      newFoodInput = {
+    when('The user adds a new journal called steak', async () => {
+      newJournalInput = {
         title: 'steak'
       }
 
-      await mainPage.addNewFood(newFoodInput);
+      await mainPage.addNewJournal(newJournalInput);
     });
 
     then('The user should be able to verify that steak is added to the list', async () => {
-      expect(await mainPage.foodTitleToBeInList(newFoodInput.title)).toBe(true);
+      expect(await mainPage.journalTitleToBeInList(newJournalInput.title)).toBe(true);
     });
   });
 });

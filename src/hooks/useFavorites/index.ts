@@ -1,19 +1,19 @@
 import { JournalModel } from "../../models/journalModel.ts";
 
 export const useFavorites = () => {
-  const saveFoodToLocalStorage = (food: JournalModel) => {
+  const saveJournalToLocalStorage = (journal: JournalModel) => {
     const favorites = getFavoritesFromLocalStorage();
 
     const newFavorites = [
       ...favorites,
-      food
+      journal
     ];
 
-    localStorage.setItem('favoriteFoods', JSON.stringify(newFavorites));
+    localStorage.setItem('favoriteJournals', JSON.stringify(newFavorites));
   }
 
   const getFavoritesFromLocalStorage = () => {
-    const favoritesFromLocalStorage = localStorage.getItem('favoriteFoods') || '';
+    const favoritesFromLocalStorage = localStorage.getItem('favoriteJournals') || '';
 
     const favorites = favoritesFromLocalStorage ? JSON.parse(favoritesFromLocalStorage) : [];
 
@@ -33,7 +33,7 @@ export const useFavorites = () => {
   }
 
   const deleteFavoriteFromLocalStorage = (id: string) => {
-    const favoritesFromLocalStorage = localStorage.getItem('favoriteFoods') || '';
+    const favoritesFromLocalStorage = localStorage.getItem('favoriteJournals') || '';
 
     const favorites = favoritesFromLocalStorage ? JSON.parse(favoritesFromLocalStorage) : [];
 
@@ -43,12 +43,12 @@ export const useFavorites = () => {
 
     const filtered = favorites.filter((favorite: JournalModel) => id !== favorite.id);
 
-    localStorage.setItem('favoriteFoods', JSON.stringify(filtered));
+    localStorage.setItem('favoriteJournals', JSON.stringify(filtered));
   }
 
   return {
     deleteFavoriteFromLocalStorage,
     isFavorite,
-    saveFoodToLocalStorage,
+    saveJournalToLocalStorage,
   };
 };

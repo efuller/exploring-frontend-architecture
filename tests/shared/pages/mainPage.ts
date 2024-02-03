@@ -10,8 +10,8 @@ export class MainPage {
       driver: pageDriver,
       timeout: 3000,
       elements: {
-        foodInput: {
-          selector: '#food-input',
+        journalInput: {
+          selector: '#journal-input',
           type: 'input'
         },
         submitBtn: {
@@ -22,14 +22,14 @@ export class MainPage {
     });
   }
 
-  async addNewFood(newFood: createJournalDto) {
+  async addNewJournal(newJournal: createJournalDto) {
     await this.components.load();
-    await this.components.get('foodInput').type(newFood.title);
+    await this.components.get('journalInput').type(newJournal.title);
     await this.components.get('submitBtn').click();
   }
 
-  async foodTitleToBeInList(food: string) {
-    const ul = await this.pageDriver.getPage().waitForSelector('#food-list', { timeout: 3000 });
+  async journalTitleToBeInList(journal: string) {
+    const ul = await this.pageDriver.getPage().waitForSelector('#journal-list', { timeout: 3000 });
 
     if (!ul) {
       return false;
@@ -39,7 +39,7 @@ export class MainPage {
       return options.map((option) => option.textContent);
     });
 
-    if (li.includes(food)) {
+    if (li.includes(journal)) {
       return true;
     }
     return false;
@@ -48,7 +48,7 @@ export class MainPage {
   async open() {
     let url = 'https://explore-frontend-architecture.onrender.com/';
 
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV !== 'production') {
       url = 'http://localhost:5173';
     }
     const page = this.pageDriver.getPage();

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from 'uuid';
 
-import { useFoods } from "./hooks/useJournals";
+import { useJournals } from "./hooks/useJournals";
 import { useFavorites } from "./hooks/useFavorites";
 import { JournalModel } from "./models/journalModel.ts";
 import { useConfirmationModal } from "./components/ConfirmationModal/useConfirmationModal.ts";
@@ -39,7 +39,7 @@ function App() {
     deleteFood,
     pendingDelete,
     setPendingDelete,
-  } = useFoods();
+  } = useJournals();
   const {
     deleteFavoriteFromLocalStorage,
     isFavorite,

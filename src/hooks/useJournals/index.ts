@@ -3,15 +3,15 @@ import axios, { AxiosResponse } from "axios";
 
 import { JournalModel } from "../../models/journalModel.ts";
 
-export const useFoods = () => {
-  const [foods, setFoods] = useState<JournalModel[]>([]);
+export const useJournals = () => {
+  const [journals, setJournals] = useState<JournalModel[]>([]);
   const [pendingDelete, setPendingDelete] = useState('');
 
-  const createFood = async (newFood: JournalModel) => {
-    const result: AxiosResponse<JournalModel> = await axios.post('/foods', newFood)
+  const createJournal = async (newJournal: JournalModel) => {
+    const result: AxiosResponse<JournalModel> = await axios.post('/journals', newJournal)
 
     if (result.status === 201) {
-      setFoods((prevState) => {
+      setJournals((prevState) => {
         return [...prevState, result.data];
       });
     }
@@ -19,14 +19,14 @@ export const useFoods = () => {
     return result;
   }
 
-  const deleteFood = async (id: string) => {
-    const result: AxiosResponse<JournalModel> = await axios.delete(`/foods/${id}`)
+  const deleteJournal = async (id: string) => {
+    const result: AxiosResponse<JournalModel> = await axios.delete(`/journals/${id}`)
 
     if (result.status === 200) {
-      const removeDeletedFood = foods.filter((food) => food.id !== result.data.id);
+      const removeDeletedJournal = journals.filter((journal) => journal.id !== result.data.id);
 
-      setFoods(() => {
-        return [...removeDeletedFood];
+      setJournals(() => {
+        return [...removeDeletedJournal];
       });
     }
 
@@ -34,25 +34,25 @@ export const useFoods = () => {
   }
 
   const exists = (id: string) => {
-    const items = foods.filter((food) => food.id === id);
+    const items = journals.filter((journal) => journal.id === id);
 
     return !!items.length;
   }
 
   useEffect(() => {
-    axios.get<JournalModel[]>('/foods')
+    axios.get<JournalModel[]>('/journals')
       .then((data) => {
-        setFoods(data.data);
+        setJournals(data.data);
       });
   }, []);
 
   return {
-    createFood,
-    deleteFood,
+    createJournal: createJournal,
+    deleteJournal: deleteJournal,
     exists,
     pendingDelete,
-    foods,
+    journals,
     setPendingDelete,
-    setFoods
+    setJournals
   }
 }

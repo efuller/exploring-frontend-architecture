@@ -1,6 +1,6 @@
 import {factory, primaryKey} from '@mswjs/data'
 import { setupWorker } from "msw";
-import { FoodModel } from "../models/foodModel.ts";
+import { JournalModel } from "../models/journalModel.ts";
 
 export const db = factory({
   foods: {
@@ -19,7 +19,7 @@ export function seedDb() {
     return [];
   }
 
-  favorites.forEach((favorite: FoodModel) => {
+  favorites.forEach((favorite: JournalModel) => {
     return db.foods.create(favorite);
   });
 }

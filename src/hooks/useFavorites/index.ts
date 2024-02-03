@@ -1,7 +1,7 @@
-import { FoodModel } from "../../models/foodModel.ts";
+import { JournalModel } from "../../models/journalModel.ts";
 
 export const useFavorites = () => {
-  const saveFoodToLocalStorage = (food: FoodModel) => {
+  const saveFoodToLocalStorage = (food: JournalModel) => {
     const favorites = getFavoritesFromLocalStorage();
 
     const newFavorites = [
@@ -27,7 +27,7 @@ export const useFavorites = () => {
   const isFavorite = (id: string) => {
     const favorites = getFavoritesFromLocalStorage();
 
-    const isFavorite = favorites.filter((favorite: FoodModel) => id === favorite.id);
+    const isFavorite = favorites.filter((favorite: JournalModel) => id === favorite.id);
 
     return !!isFavorite.length;
   }
@@ -41,7 +41,7 @@ export const useFavorites = () => {
       return false;
     }
 
-    const filtered = favorites.filter((favorite: FoodModel) => id !== favorite.id);
+    const filtered = favorites.filter((favorite: JournalModel) => id !== favorite.id);
 
     localStorage.setItem('favoriteFoods', JSON.stringify(filtered));
   }

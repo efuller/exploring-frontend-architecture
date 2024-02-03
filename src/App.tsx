@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from 'uuid';
 
-import { useFoods } from "./hooks/useFoods";
+import { useFoods } from "./hooks/useJournals";
 import { useFavorites } from "./hooks/useFavorites";
-import { FoodModel } from "./models/foodModel.ts";
+import { JournalModel } from "./models/journalModel.ts";
 import { useConfirmationModal } from "./components/ConfirmationModal/useConfirmationModal.ts";
 import { ConfirmationModal } from "./components/ConfirmationModal";
 
@@ -60,7 +60,7 @@ function App() {
     await  handleDeleteFood(id);
   }
 
-  const handleFavorite = (food: FoodModel) => {
+  const handleFavorite = (food: JournalModel) => {
     if (isFavorite(food.id)) {
       return;
     }
@@ -70,7 +70,7 @@ function App() {
 
   const onSubmit = async (data: FormInput) => {
 
-    const newFood: FoodModel = {
+    const newFood: JournalModel = {
       ...data,
       id: uuidv4(),
     };

@@ -1,4 +1,4 @@
-export type FoodModel = {
+export type JournalModel = {
   id: string;
   title: string;
 }

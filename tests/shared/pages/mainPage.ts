@@ -1,6 +1,6 @@
 import { PuppeteerPageDriver } from "../driver/pupeteerPageDriver";
 import { PageComponents } from "../pageComponents";
-import { createFoodDto } from "../../../src/dto/createFoodDto";
+import { createJournalDto } from "../../../src/dto/createJournalDto";
 
 export class MainPage {
   private components: PageComponents;
@@ -22,7 +22,7 @@ export class MainPage {
     });
   }
 
-  async addNewFood(newFood: createFoodDto) {
+  async addNewFood(newFood: createJournalDto) {
     await this.components.load();
     await this.components.get('foodInput').type(newFood.title);
     await this.components.get('submitBtn').click();

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 
-import { FoodModel } from "../../models/foodModel.ts";
+import { JournalModel } from "../../models/journalModel.ts";
 
 export const useFoods = () => {
-  const [foods, setFoods] = useState<FoodModel[]>([]);
+  const [foods, setFoods] = useState<JournalModel[]>([]);
   const [pendingDelete, setPendingDelete] = useState('');
 
-  const createFood = async (newFood: FoodModel) => {
-    const result: AxiosResponse<FoodModel> = await axios.post('/foods', newFood)
+  const createFood = async (newFood: JournalModel) => {
+    const result: AxiosResponse<JournalModel> = await axios.post('/foods', newFood)
 
     if (result.status === 201) {
       setFoods((prevState) => {
@@ -20,7 +20,7 @@ export const useFoods = () => {
   }
 
   const deleteFood = async (id: string) => {
-    const result: AxiosResponse<FoodModel> = await axios.delete(`/foods/${id}`)
+    const result: AxiosResponse<JournalModel> = await axios.delete(`/foods/${id}`)
 
     if (result.status === 200) {
       const removeDeletedFood = foods.filter((food) => food.id !== result.data.id);
@@ -40,7 +40,7 @@ export const useFoods = () => {
   }
 
   useEffect(() => {
-    axios.get<FoodModel[]>('/foods')
+    axios.get<JournalModel[]>('/foods')
       .then((data) => {
         setFoods(data.data);
       });

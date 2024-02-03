@@ -1,13 +1,13 @@
 import { loadFeature, defineFeature } from 'jest-cucumber';
 import { MainPage } from "../../shared/pages/mainPage";
 import { PuppeteerPageDriver } from "../../shared/driver/pupeteerPageDriver";
-import { createFoodDto } from "../../../src/dto/createFoodDto";
+import { createJournalDto } from "../../../src/dto/createJournalDto";
 
 const feature = loadFeature('tests/e2e/food/addFood.feature');
 
 defineFeature(feature, (test) => {
   test('Adding a food', ({ given, when, then }) => {
-    let newFoodInput: createFoodDto;
+    let newFoodInput: createJournalDto;
     let pageDriver: PuppeteerPageDriver;
     let mainPage: MainPage;
 

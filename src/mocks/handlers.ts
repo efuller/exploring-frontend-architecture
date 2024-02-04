@@ -1,9 +1,9 @@
 import {factory, primaryKey} from '@mswjs/data'
 import { setupWorker } from "msw";
-import { FoodModel } from "../models/foodModel.ts";
+import { JournalModel } from "../models/journalModel.ts";
 
 export const db = factory({
-  foods: {
+  journals: {
     id: primaryKey(String),
     title: String,
   },
@@ -11,7 +11,7 @@ export const db = factory({
 
 // Here, if we want to see upon reload
 export function seedDb() {
-  const favoritesFromLocalStorage = localStorage.getItem('favoriteFoods') || '';
+  const favoritesFromLocalStorage = localStorage.getItem('favoriteJournals') || '';
 
   const favorites = favoritesFromLocalStorage ? JSON.parse(favoritesFromLocalStorage) : [];
 
@@ -19,12 +19,12 @@ export function seedDb() {
     return [];
   }
 
-  favorites.forEach((favorite: FoodModel) => {
-    return db.foods.create(favorite);
+  favorites.forEach((favorite: JournalModel) => {
+    return db.journals.create(favorite);
   });
 }
 
-export const handlers = [...db.foods.toHandlers('rest')];
+export const handlers = [...db.journals.toHandlers('rest')];
 
 // Establish requests interception.
 export function setupBrowserMocks() {

@@ -1,13 +1,13 @@
 import { loadFeature, defineFeature } from 'jest-cucumber';
 import { MainPage } from "../../shared/pages/mainPage";
 import { PuppeteerPageDriver } from "../../shared/driver/pupeteerPageDriver";
-import { createFoodDto } from "../../../src/dto/createFoodDto";
+import { createJournalDto } from "../../../src/dto/createJournalDto";
 
-const feature = loadFeature('tests/e2e/food/addFood.feature');
+const feature = loadFeature('tests/e2e/journal/journal.feature');
 
 defineFeature(feature, (test) => {
-  test('Adding a food', ({ given, when, then }) => {
-    let newFoodInput: createFoodDto;
+  test('Adding a journal', ({ given, when, then }) => {
+    let newJournalInput: createJournalDto;
     let pageDriver: PuppeteerPageDriver;
     let mainPage: MainPage;
 
@@ -25,16 +25,16 @@ defineFeature(feature, (test) => {
       await mainPage.open();
     });
 
-    when('The user adds a new food called steak', async () => {
-      newFoodInput = {
-        title: 'steak'
+    when(/^The user adds a new journal called (.*)$/, async (journal) => {
+      newJournalInput = {
+        title: journal
       }
 
-      await mainPage.addNewFood(newFoodInput);
+      await mainPage.addNewJournal(newJournalInput);
     });
 
-    then('The user should be able to verify that steak is added to the list', async () => {
-      expect(await mainPage.foodTitleToBeInList(newFoodInput.title)).toBe(true);
+    then(/^The user should be able to verify that (.*) is added to the list$/, async (journal) => {
+      expect(await mainPage.journalTitleToBeInList(journal)).toBe(true);
     });
   });
 });

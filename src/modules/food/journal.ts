@@ -1,4 +1,4 @@
-export type JournalModel = {
+export type Journal = {
   id: string;
   title: string;
 }

@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useJournals } from "./hooks/useJournals";
 import { useFavorites } from "./hooks/useFavorites";
-import { JournalModel } from "./models/journalModel.ts";
+import { Journal } from "./modules/food/journal.ts";
 import { useConfirmationModal } from "./components/ConfirmationModal/useConfirmationModal.ts";
 import { ConfirmationModal } from "./components/ConfirmationModal";
 
@@ -60,7 +60,7 @@ function App() {
     await  handleDeleteJournal(id);
   }
 
-  const handleFavorite = (journal: JournalModel) => {
+  const handleFavorite = (journal: Journal) => {
     if (isFavorite(journal.id)) {
       return;
     }
@@ -70,7 +70,7 @@ function App() {
 
   const onSubmit = async (data: FormInput) => {
 
-    const newJournal: JournalModel = {
+    const newJournal: Journal = {
       ...data,
       id: uuidv4(),
     };

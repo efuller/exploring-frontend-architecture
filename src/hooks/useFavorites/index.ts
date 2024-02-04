@@ -1,7 +1,7 @@
-import { JournalModel } from "../../models/journalModel.ts";
+import { Journal } from "../../modules/food/journal.ts";
 
 export const useFavorites = () => {
-  const saveJournalToLocalStorage = (journal: JournalModel) => {
+  const saveJournalToLocalStorage = (journal: Journal) => {
     const favorites = getFavoritesFromLocalStorage();
 
     const newFavorites = [
@@ -27,7 +27,7 @@ export const useFavorites = () => {
   const isFavorite = (id: string) => {
     const favorites = getFavoritesFromLocalStorage();
 
-    const isFavorite = favorites.filter((favorite: JournalModel) => id === favorite.id);
+    const isFavorite = favorites.filter((favorite: Journal) => id === favorite.id);
 
     return !!isFavorite.length;
   }
@@ -41,7 +41,7 @@ export const useFavorites = () => {
       return false;
     }
 
-    const filtered = favorites.filter((favorite: JournalModel) => id !== favorite.id);
+    const filtered = favorites.filter((favorite: Journal) => id !== favorite.id);
 
     localStorage.setItem('favoriteJournals', JSON.stringify(filtered));
   }

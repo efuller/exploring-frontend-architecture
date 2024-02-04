@@ -12,6 +12,13 @@ const config: Config = {
         '^.+\\.(t|j)sx?$': ['ts-jest', {}],
       },
     },
+    {
+      displayName: 'app',
+      testMatch: ['**/@(src|tests)/**/*.@(app).*'],
+      transform: {
+        '^.+\\.(t|j)sx?$': ['ts-jest', {}],
+      },
+    },
   ],
 }
 

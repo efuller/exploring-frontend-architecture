@@ -10,6 +10,8 @@
     "preview": "vite preview --host=0.0.0.0 --port=10000",
     "staging:test:e2e": "NODE_ENV=staging jest --selectProjects e2e",
     "test": "jest",
+    "test:app": "jest --selectProjects app",
+    "test:app:dev": "jest --selectProjects app --watchAll",
     "test:dev": "jest --watchAll",
     "test:e2e": "jest --selectProjects e2e",
     "test:e2e:dev": "jest --selectProjects e2e --watchAll"

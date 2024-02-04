@@ -7,4 +7,8 @@ export class JournalController {
   async add(journal: Journal) {
     await this.journalRepository.add(journal);
   }
+
+  async delete(journal: Journal) {
+    await this.journalRepository.delete(journal);
+  }
 }

@@ -15,4 +15,14 @@ export class JournalRepository {
   async loadJournals(presenterCb: (journals: Journal[]) => void) {
     this.journals.subscribe(presenterCb);
   }
+
+  async delete(journal: Journal) {
+    // If journal is not a favorite, just delete it
+    if (!journal.isFavorite) {
+      const journals = this.journals.getValue();
+      const newJournals = journals.filter(v => v.id !== journal.id);
+      this.journals.setValue(newJournals);
+      return;
+    }
+  }
 }

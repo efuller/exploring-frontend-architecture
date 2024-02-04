@@ -6,16 +6,16 @@ Feature: Journal Management
     When I add a new journal called "The weather is great"
     Then I should see the journal "The weather is great" in the list of journal entries
 
+  Scenario: A journal can be deleted from the list
+    Given There is a journal named "The weather is great" in the journal list
+    When I delete the journal item from the list
+    Then The journal item "The weather is great" should no longer be in the list
+
 #  Scenario: A journal can be set as a favorite
 #    Given There is a journal named "steak" in the journal list
 #    When I click the favorite button
 #    Then The journal item "steak" should be marked as a favorite
 #    And The favorite journal "steak" should be saved to the local storage repository
-#
-#  Scenario: A journal can be deleted from the list
-#    Given There is a journal named "steak" in the journal list
-#    When I delete the journal item from the list
-#    Then The journal item "steak" should no longer be in the list
 #
 #  Scenario: Delete a journal that is marked as a favorite
 #    Given There is a journal named "steak" in the journal list

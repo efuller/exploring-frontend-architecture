@@ -13,6 +13,7 @@ defineFeature(feature, (test) => {
   beforeEach(() => {
     compositionRoot = new CompositionRoot();
     app = compositionRoot.getApp();
+    vm = [];
   });
 
   test('I can create a new journal entry', ({given, when, then}) => {
@@ -22,7 +23,12 @@ defineFeature(feature, (test) => {
 
     when(/^I add a new journal called "(.*)"$/, (entry) => {
       const controller = app.getJournalModule().getJournalController();
-      controller.add(entry);
+      const newJournal: Journal = {
+        id: '1',
+        title: entry,
+        isFavorite: false
+      };
+      controller.add(newJournal);
     });
 
     then(/^I should see the journal "(.*)" in the list of journal entries$/, async (entry) => {
@@ -30,7 +36,39 @@ defineFeature(feature, (test) => {
       await presenter.getJournals((journals) => {
         vm = journals;
       });
-      expect(vm[0]).toEqual(entry);
+      expect(vm[0].title).toEqual(entry);
     });
   });
+
+  test('A journal can be deleted from the list', ({ given, when, then }) => {
+    given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
+      const controller = app.getJournalModule().getJournalController();
+      const newJournal: Journal = {
+        id: '1',
+        title: entry,
+        isFavorite: false
+      };
+      await controller.add(newJournal);
+
+      const presenter = app.getJournalModule().getJournalPresenter();
+      await presenter.getJournals((journals) => {
+        vm = journals;
+      });
+      expect(vm[0].title).toEqual(entry);
+    });
+
+    when('I delete the journal item from the list', async () => {
+      const controller = app.getJournalModule().getJournalController();
+      await controller.delete(vm[0]);
+    });
+
+    then(/^The journal item "(.*)" should no longer be in the list$/, async () => {
+      const presenter = app.getJournalModule().getJournalPresenter();
+      await presenter.getJournals((journals) => {
+        vm = journals;
+      });
+      expect(vm.length).toBe(0);
+    });
+  });
+
 });

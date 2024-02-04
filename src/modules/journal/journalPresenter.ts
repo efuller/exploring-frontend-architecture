@@ -8,8 +8,8 @@ export class JournalPresenter {
     this.journalRepo = journalRepo;
   }
 
-  async getFoods(componentCb: (journals: Journal[]) => void) {
-    await this.journalRepo.loadFoods((journalsCache) => {
+  async getJournals(componentCb: (journals: Journal[]) => void) {
+    await this.journalRepo.loadJournals((journalsCache) => {
       // Map over the foodsCache and return a new view model.
       componentCb(journalsCache);
     });

@@ -11,7 +11,7 @@ export class JournalRepository {
     this.foods.setValue([...this.foods.getValue(), food]);
   }
 
-  async loadFoods() {
-    return this.foods.getValue();
+  async loadFoods(presenterCb: (journals: Journal[]) => void) {
+    this.foods.subscribe(presenterCb);
   }
 }

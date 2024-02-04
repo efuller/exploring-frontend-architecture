@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useJournals } from "./hooks/useJournals";
 import { useFavorites } from "./hooks/useFavorites";
-import { Journal } from "./modules/food/journal.ts";
+import { Journal } from "./modules/journal/journal.ts";
 import { useConfirmationModal } from "./components/ConfirmationModal/useConfirmationModal.ts";
 import { ConfirmationModal } from "./components/ConfirmationModal";
 

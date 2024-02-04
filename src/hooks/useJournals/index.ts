@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios, { AxiosResponse } from "axios";
 
-import { Journal } from "../../modules/food/journal.ts";
+import { Journal } from "../../modules/journal/journal.ts";
 
 export const useJournals = () => {
   const [journals, setJournals] = useState<Journal[]>([]);

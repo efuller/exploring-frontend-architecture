@@ -1,4 +1,4 @@
-import { Journal } from "../../modules/food/journal.ts";
+import { Journal } from "../../modules/journal/journal.ts";
 
 export const useFavorites = () => {
   const saveJournalToLocalStorage = (journal: Journal) => {

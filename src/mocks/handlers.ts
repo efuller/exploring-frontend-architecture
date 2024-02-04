@@ -1,6 +1,6 @@
 import {factory, primaryKey} from '@mswjs/data'
 import { setupWorker } from "msw";
-import { Journal } from "../modules/food/journal.ts";
+import { Journal } from "../modules/journal/journal.ts";
 
 export const db = factory({
   journals: {

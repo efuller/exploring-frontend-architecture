@@ -1,5 +1,5 @@
 import { Router } from "../router/router.ts";
-import { JournalModule } from "../../modules/food/journalModule.ts";
+import { JournalModule } from "../../modules/journal/journalModule.ts";
 
 type AppModules = {
   journalModule: JournalModule;

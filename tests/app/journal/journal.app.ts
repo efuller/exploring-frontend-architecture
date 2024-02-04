@@ -2,8 +2,8 @@ import { defineFeature, loadFeature } from "jest-cucumber";
 
 const feature = loadFeature('tests/app/journal/journal.app.feature');
 
-defineFeature(feature, () => {
-  test('I can create a new journal entry', ({ given, when, then }) => {
+defineFeature(feature, (test) => {
+  test('I can create a new journal entry', ({given, when, then}) => {
     given('I am on the homepage page', () => {
       console.log('hi there');
     });

@@ -1,4 +1,4 @@
-type Observer<T> = (observable: Observable<T>) => void;
+type Observer<T> = (value: T) => void;
 
 export default class Observable<T> {
   value : T;
@@ -24,7 +24,7 @@ export default class Observable<T> {
 
   notify() {
     this.observers.forEach(observer => {
-      observer(this)
+      observer(this.value)
     });
   }
 }

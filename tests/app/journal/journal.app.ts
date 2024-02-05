@@ -71,4 +71,44 @@ defineFeature(feature, (test) => {
     });
   });
 
+  test.only('A journal can be set as a favorite', ({ given, when, then, and }) => {
+    given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
+      const controller = app.getJournalModule().getJournalController();
+      const newJournal: Journal = {
+        id: '1',
+        title: entry,
+        isFavorite: false
+      };
+      await controller.add(newJournal);
+
+      const presenter = app.getJournalModule().getJournalPresenter();
+      await presenter.getJournals((journals) => {
+        vm = journals;
+      });
+      expect(vm[0].title).toEqual(entry);
+      expect(vm[0].isFavorite).toBe(false);
+    });
+
+    when('The journal entry is set as a favorite', async () => {
+      const controller = app.getJournalModule().getJournalController();
+      await controller.setFavorite(vm[0]);
+    });
+
+    then(/^The journal entry "(.*)" should be marked as a favorite$/, async (entry) => {
+      const presenter = app.getJournalModule().getJournalPresenter();
+      await presenter.getJournals((journals) => {
+        vm = journals;
+      });
+      expect(vm[0].title).toEqual(entry);
+      expect(vm[0].isFavorite).toBe(true);
+    });
+
+    and(/^The favorite journal "(.*)" should be saved to the client storage repository$/, async (entry) => {
+      const presenter = app.getJournalModule().getJournalPresenter();
+      const favorites = await presenter.loadFavoriteJournals();
+      expect(favorites.length).toBe(1);
+      expect(favorites[0].title).toEqual(entry);
+    });
+  });
+
 });

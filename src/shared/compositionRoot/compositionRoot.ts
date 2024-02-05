@@ -4,6 +4,7 @@ import { App } from "../app/app.ts";
 import { JournalRepository } from "../../modules/journal/journalRepository.ts";
 import { JournalController } from "../../modules/journal/journalController.ts";
 import { JournalPresenter } from "../../modules/journal/journalPresenter.ts";
+import { InMemoryClientStorage } from "../../modules/journal/infra/repos/inMemoryClientStorage.ts";
 
 export const routeMap: RouteMap = {
   home: {
@@ -30,8 +31,9 @@ export class CompositionRoot {
 
   createJournalModule() {
     const foodRepository = new JournalRepository();
-    const foodController = new JournalController(foodRepository);
-    const foodPresenter = new JournalPresenter(foodRepository);
+    const inMemoryClientStorage = new InMemoryClientStorage();
+    const foodController = new JournalController(foodRepository, inMemoryClientStorage);
+    const foodPresenter = new JournalPresenter(foodRepository, inMemoryClientStorage);
     return new JournalModule(foodController, foodPresenter);
   }
 

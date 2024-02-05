@@ -25,4 +25,15 @@ export class JournalRepository {
       return;
     }
   }
+
+  async setFavorite(journal: Journal) {
+    const journals = this.journals.getValue();
+    const newJournals = journals.map(f => {
+      if (f.id === journal.id) {
+        return {...journal, isFavorite: !journal.isFavorite};
+      }
+      return f;
+    });
+    this.journals.setValue(newJournals);
+  }
 }

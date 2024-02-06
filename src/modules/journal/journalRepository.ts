@@ -1,13 +1,24 @@
 import Observable from "../../shared/observable/observable.ts";
 import { Journal } from "./journal.ts";
+import { ClientStorageRepository } from "./clientStorageRepository.ts";
 
 export class JournalRepository {
   private readonly journals: Observable<Journal[]>;
   private readonly pendingDeletion: Observable<Journal | null>;
 
-  constructor() {
+  constructor(private readonly clientRepository: ClientStorageRepository) {
     this.journals = new Observable<Journal[]>([]);
     this.pendingDeletion = new Observable<Journal | null>(null);
+
+    this.hydrateFromClientStorage();
+  }
+
+  async hydrateFromClientStorage() {
+    // Hydrate journals from client storage on load
+    const favorites = await this.clientRepository.getAll();
+    if (favorites.length) {
+      this.journals.setValue(favorites);
+    }
   }
 
   async add(food: Journal) {

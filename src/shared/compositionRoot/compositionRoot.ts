@@ -30,8 +30,8 @@ export class CompositionRoot {
   }
 
   createJournalModule() {
-    const foodRepository = new JournalRepository();
     const inMemoryClientStorage = new InMemoryClientStorage();
+    const foodRepository = new JournalRepository(inMemoryClientStorage);
     const foodController = new JournalController(foodRepository, inMemoryClientStorage);
     const foodPresenter = new JournalPresenter(foodRepository, inMemoryClientStorage);
     return new JournalModule(foodController, foodPresenter);

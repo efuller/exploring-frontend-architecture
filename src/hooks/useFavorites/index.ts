@@ -24,10 +24,10 @@ export const useFavorites = () => {
     return favorites;
   }
 
-  const isFavorite = (id: string) => {
+  const isFavorite = (journal: Journal) => {
     const favorites = getFavoritesFromLocalStorage();
 
-    const isFavorite = favorites.filter((favorite: Journal) => id === favorite.id);
+    const isFavorite = favorites.filter((favorite: Journal) => journal.id === favorite.id);
 
     return !!isFavorite.length;
   }

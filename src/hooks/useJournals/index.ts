@@ -5,7 +5,7 @@ import { Journal } from "../../modules/journal/journal.ts";
 
 export const useJournals = () => {
   const [journals, setJournals] = useState<Journal[]>([]);
-  const [pendingDelete, setPendingDelete] = useState('');
+  const [pendingDelete, setPendingDelete] = useState<Journal | null>(null);
 
   const createJournal = async (newJournal: Journal) => {
     const result: AxiosResponse<Journal> = await axios.post('/journals', newJournal)

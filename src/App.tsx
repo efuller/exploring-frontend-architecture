@@ -43,32 +43,26 @@ function App({ presenter, controller }: AppProps) {
   const {
     journals,
     setJournals,
-    deleteJournal,
     pendingDelete,
     setPendingDelete,
   } = useJournals();
   const {
-    deleteFavoriteFromLocalStorage,
     isFavorite,
     saveJournalToLocalStorage
   } = useFavorites();
 
-  const handleDeleteJournal = async (id: string) => {
-    await deleteJournal(id);
-  }
-
-  const handleConfirmation = async (id: string) => {
-    if (isFavorite(id)) {
+  const handleConfirmation = async (journal: Journal) => {
+    if (isFavorite(journal)) {
       setOpen(true);
-      setPendingDelete(id);
+      setPendingDelete(journal);
       return;
     }
 
-    await  handleDeleteJournal(id);
+    await controller.delete(journal);
   }
 
   const handleFavorite = (journal: Journal) => {
-    if (isFavorite(journal.id)) {
+    if (isFavorite(journal)) {
       return;
     }
 
@@ -91,6 +85,12 @@ function App({ presenter, controller }: AppProps) {
   };
 
   useEffect(() => {
+    presenter.getPendingDeletion((journal) => {
+      setPendingDelete(journal);
+    })
+  }, []);
+
+  useEffect(() => {
     presenter.getJournals((journals: Journal[]) => {
       setJournals(journals);
     });
@@ -98,8 +98,7 @@ function App({ presenter, controller }: AppProps) {
 
   useEffect(() => {
     if (confirmed && pendingDelete) {
-      deleteFavoriteFromLocalStorage(pendingDelete);
-       handleDeleteJournal(pendingDelete);
+      controller.delete(pendingDelete);
       setOpen(false);
     }
   }, [confirmed, pendingDelete]);
@@ -137,16 +136,16 @@ function App({ presenter, controller }: AppProps) {
                       <p className="w-full text-grey-darkest">{journal.title}</p>
                       <button
                         className={classNames(
-                          isFavorite(journal.id)
+                          isFavorite(journal)
                             ? 'flex-no-shrink p-2 ml-4 mr-2 border-2 bg-red-400 rounded hover:text-white text-green border-green hover:bg-green'
                             : 'flex-no-shrink p-2 ml-4 mr-2 border-2 rounded hover:text-white text-green border-green hover:bg-green'
                         )}
-                        disabled={isFavorite(journal.id)}
+                        disabled={isFavorite(journal)}
                         onClick={() => handleFavorite(journal)}
                       >Favorite</button>
                       <button
                         className="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red"
-                        onClick={() => handleConfirmation(journal.id)}
+                        onClick={() => handleConfirmation(journal)}
                       >Delete</button>
                     </li>
                   ))

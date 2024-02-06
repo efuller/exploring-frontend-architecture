@@ -9,6 +9,8 @@ import { useConfirmationModal } from "./components/ConfirmationModal/useConfirma
 import { ConfirmationModal } from "./components/ConfirmationModal";
 
 import './App.css'
+import { JournalPresenter } from "./modules/journal/journalPresenter.ts";
+import { JournalController } from "./modules/journal/journalController.ts";
 
 type FormInput = {
   title: string;
@@ -19,7 +21,12 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-function App() {
+interface AppProps {
+  presenter: JournalPresenter;
+  controller: JournalController;
+}
+
+function App({ presenter, controller }: AppProps) {
   const {
     open,
     setOpen,
@@ -35,7 +42,7 @@ function App() {
   } = useForm<FormInput>();
   const {
     journals,
-    createJournal,
+    setJournals,
     deleteJournal,
     pendingDelete,
     setPendingDelete,
@@ -73,13 +80,21 @@ function App() {
     const newJournal: Journal = {
       ...data,
       id: uuidv4(),
+      isFavorite: false,
     };
 
-    await createJournal(newJournal);
+    // await createJournal(newJournal);
+    await controller.add(newJournal);
 
     // Reset form.
     reset();
   };
+
+  useEffect(() => {
+    presenter.getJournals((journals: Journal[]) => {
+      setJournals(journals);
+    });
+  }, [presenter, setJournals]);
 
   useEffect(() => {
     if (confirmed && pendingDelete) {

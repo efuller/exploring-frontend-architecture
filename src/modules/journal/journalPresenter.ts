@@ -21,6 +21,12 @@ export class JournalPresenter {
     });
   }
 
+  async getPendingDeletion(componentCb: (journal: Journal | null) => void) {
+    await this.journalRepo.getPendingDeletion((journal) => {
+      componentCb(journal);
+    });
+  }
+
   async loadFavoriteJournals() {
     return await this.clientRepo.getAll();
   }

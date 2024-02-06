@@ -3,9 +3,11 @@ import { Journal } from "./journal.ts";
 
 export class JournalRepository {
   private readonly journals: Observable<Journal[]>;
+  private readonly pendingDeletion: Observable<Journal | null>;
 
   constructor() {
     this.journals = new Observable<Journal[]>([]);
+    this.pendingDeletion = new Observable<Journal | null>(null);
   }
 
   async add(food: Journal) {
@@ -24,6 +26,16 @@ export class JournalRepository {
       this.journals.setValue(newJournals);
       return;
     }
+
+    const pending = this.pendingDeletion.getValue();
+    if (pending && pending.id === journal.id) {
+      const journals = this.journals.getValue();
+      const newJournals = journals.filter(v => v.id !== journal.id);
+      this.journals.setValue(newJournals);
+      this.pendingDeletion.setValue(null);
+      return;
+    }
+    this.pendingDeletion.setValue(this.journals.getValue().find(v => v.id === journal.id) || null);
   }
 
   async setFavorite(journal: Journal) {
@@ -35,5 +47,9 @@ export class JournalRepository {
       return f;
     });
     this.journals.setValue(newJournals);
+  }
+
+  async getPendingDeletion(presenterCb: (journal: Journal | null) => void) {
+    this.pendingDeletion.subscribe(presenterCb);
   }
 }

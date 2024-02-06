@@ -14,6 +14,7 @@ export class JournalController {
 
   async delete(journal: Journal) {
     await this.journalRepository.delete(journal);
+    await this.clientRepository.delete(journal.id);
   }
 
   async setFavorite(journal: Journal) {

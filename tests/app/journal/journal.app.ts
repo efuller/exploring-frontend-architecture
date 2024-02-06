@@ -12,7 +12,7 @@ defineFeature(feature, (test) => {
   let pendingDeletion: Journal | null;
 
   beforeEach(() => {
-    compositionRoot = new CompositionRoot();
+    compositionRoot = new CompositionRoot("test");
     app = compositionRoot.getApp();
     vm = [];
     pendingDeletion = null;

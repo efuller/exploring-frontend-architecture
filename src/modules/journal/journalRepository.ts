@@ -43,6 +43,7 @@ export class JournalRepository {
       const journals = this.journals.getValue();
       const newJournals = journals.filter(v => v.id !== journal.id);
       this.journals.setValue(newJournals);
+      await this.clientRepository.delete(journal.id);
       this.pendingDeletion.setValue(null);
       return;
     }
@@ -57,6 +58,7 @@ export class JournalRepository {
       }
       return f;
     });
+    await this.clientRepository.add(journal);
     this.journals.setValue(newJournals);
   }
 

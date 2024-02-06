@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from 'uuid';
 
 import { useJournals } from "./hooks/useJournals";
-import { useFavorites } from "./hooks/useFavorites";
 import { Journal } from "./modules/journal/journal.ts";
 import { useConfirmationModal } from "./components/ConfirmationModal/useConfirmationModal.ts";
 import { ConfirmationModal } from "./components/ConfirmationModal";
@@ -31,8 +30,6 @@ function App({ presenter, controller }: AppProps) {
     open,
     setOpen,
     cancelButtonRef,
-    setConfirmed,
-    confirmed,
   } = useConfirmationModal();
 
   const {
@@ -46,27 +43,32 @@ function App({ presenter, controller }: AppProps) {
     pendingDelete,
     setPendingDelete,
   } = useJournals();
-  const {
-    isFavorite,
-    saveJournalToLocalStorage
-  } = useFavorites();
 
-  const handleConfirmation = async (journal: Journal) => {
-    if (isFavorite(journal)) {
-      setOpen(true);
-      setPendingDelete(journal);
+  const handleConfirmation = async () => {
+    if (!pendingDelete) {
       return;
     }
+    await controller.delete(pendingDelete);
+    setOpen(false);
+  }
 
+  const handleDelete = async (journal: Journal) => {
+    // If the journal si not a favorite, just delete it.
+    if (!journal.isFavorite) {
+      await controller.delete(journal);
+      return;
+    }
+    // If the journal is a favorite, open the confirmation window and set it to pending deletion.
+    setOpen(true);
     await controller.delete(journal);
   }
 
-  const handleFavorite = (journal: Journal) => {
-    if (isFavorite(journal)) {
+  const handleFavorite = async (journal: Journal) => {
+    if (journal.isFavorite) {
       return;
     }
 
-    saveJournalToLocalStorage(journal);
+    await controller.setFavorite(journal);
   }
 
   const onSubmit = async (data: FormInput) => {
@@ -77,7 +79,6 @@ function App({ presenter, controller }: AppProps) {
       isFavorite: false,
     };
 
-    // await createJournal(newJournal);
     await controller.add(newJournal);
 
     // Reset form.
@@ -96,24 +97,18 @@ function App({ presenter, controller }: AppProps) {
     });
   }, [presenter, setJournals]);
 
-  useEffect(() => {
-    if (confirmed && pendingDelete) {
-      controller.delete(pendingDelete);
-      setOpen(false);
-    }
-  }, [confirmed, pendingDelete]);
-
   if (open) {
     return (
       <ConfirmationModal
         isOpen={open}
-        setConfirmed={setConfirmed}
+        setConfirmed={handleConfirmation}
         cancelButtonRef={cancelButtonRef}
         setOpen={setOpen}
       />
     )
   }
 
+  console.log('journals', journals);
   return (
     <>
       <div className="h-100 w-full flex items-center justify-center bg-blue-400 font-sans">
@@ -136,16 +131,16 @@ function App({ presenter, controller }: AppProps) {
                       <p className="w-full text-grey-darkest">{journal.title}</p>
                       <button
                         className={classNames(
-                          isFavorite(journal)
+                          journal.isFavorite
                             ? 'flex-no-shrink p-2 ml-4 mr-2 border-2 bg-red-400 rounded hover:text-white text-green border-green hover:bg-green'
                             : 'flex-no-shrink p-2 ml-4 mr-2 border-2 rounded hover:text-white text-green border-green hover:bg-green'
                         )}
-                        disabled={isFavorite(journal)}
+                        disabled={journal.isFavorite}
                         onClick={() => handleFavorite(journal)}
                       >Favorite</button>
                       <button
                         className="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red"
-                        onClick={() => handleConfirmation(journal)}
+                        onClick={() => handleDelete(journal)}
                       >Delete</button>
                     </li>
                   ))

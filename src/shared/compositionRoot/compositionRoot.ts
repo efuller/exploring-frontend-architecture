@@ -44,7 +44,7 @@ export class CompositionRoot {
       clientStorage = new LocalStorageClient();
     }
     const foodRepository = new JournalRepository(clientStorage);
-    const foodController = new JournalController(foodRepository, clientStorage);
+    const foodController = new JournalController(foodRepository);
     const foodPresenter = new JournalPresenter(foodRepository, clientStorage);
     return new JournalModule(foodController, foodPresenter);
   }

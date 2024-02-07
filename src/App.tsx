@@ -5,11 +5,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { useJournals } from "./hooks/useJournals";
 import { Journal } from "./modules/journal/journal.ts";
 import { useConfirmationModal } from "./components/ConfirmationModal/useConfirmationModal.ts";
-import { ConfirmationModal } from "./components/ConfirmationModal";
+import { ConfirmationModal as ConfirmationModalComponent } from "./components/ConfirmationModal";
 
 import './App.css'
 import { JournalPresenter } from "./modules/journal/journalPresenter.ts";
 import { JournalController } from "./modules/journal/journalController.ts";
+import { ConfirmationModal } from "./components/ConfirmationModal/confirmationModal.ts";
 
 type FormInput = {
   title: string;
@@ -23,11 +24,11 @@ function classNames(...classes: string[]) {
 interface AppProps {
   presenter: JournalPresenter;
   controller: JournalController;
+  confirmationModal: ConfirmationModal;
 }
 
-function App({ presenter, controller }: AppProps) {
+function App({ confirmationModal, presenter, controller }: AppProps) {
   const {
-    open,
     setOpen,
     cancelButtonRef,
   } = useConfirmationModal();
@@ -44,14 +45,6 @@ function App({ presenter, controller }: AppProps) {
     setPendingDelete,
   } = useJournals();
 
-  const handleConfirmation = async () => {
-    if (!pendingDelete) {
-      return;
-    }
-    await controller.delete(pendingDelete);
-    setOpen(false);
-  }
-
   const handleDelete = async (journal: Journal) => {
     // If the journal si not a favorite, just delete it.
     if (!journal.isFavorite) {
@@ -59,7 +52,7 @@ function App({ presenter, controller }: AppProps) {
       return;
     }
     // If the journal is a favorite, open the confirmation window and set it to pending deletion.
-    setOpen(true);
+    confirmationModal.openModal();
     await controller.delete(journal);
   }
 
@@ -86,6 +79,12 @@ function App({ presenter, controller }: AppProps) {
   };
 
   useEffect(() => {
+    confirmationModal.loadModal((state) => {
+      setOpen(state.open);
+    })
+  }, [presenter, setOpen]);
+
+  useEffect(() => {
     presenter.getPendingDeletion((journal) => {
       setPendingDelete(journal);
     })
@@ -97,13 +96,18 @@ function App({ presenter, controller }: AppProps) {
     });
   }, [presenter, setJournals]);
 
-  if (open) {
+  if (confirmationModal.isOpen()) {
     return (
-      <ConfirmationModal
-        isOpen={open}
-        setConfirmed={handleConfirmation}
+      <ConfirmationModalComponent
+        confirmationModal={confirmationModal}
         cancelButtonRef={cancelButtonRef}
-        setOpen={setOpen}
+        onConfirm={() => {
+          if (!pendingDelete) {
+            return;
+          }
+          controller.delete(pendingDelete)
+          confirmationModal.closeModal();
+        }}
       />
     )
   }

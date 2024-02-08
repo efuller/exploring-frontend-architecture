@@ -2,14 +2,13 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import { useJournals } from "./hooks/useJournals";
-import { Journal } from "./modules/journal/journal.ts";
 import { useConfirmationModal } from "./components/ConfirmationModal/useConfirmationModal.ts";
 import { ConfirmationModal as ConfirmationModalComponent } from "./components/ConfirmationModal";
 
 import './App.css'
 import { JournalPresenter } from "./modules/journal/journalPresenter.ts";
 import { JournalController } from "./modules/journal/journalController.ts";
-import { ConfirmationModal } from "./shared/confirmationModal/confirmationModal.ts";
+import { JournalState } from "./modules/journal/journalRepository.ts";
 
 export type FormInput = {
   title: string;
@@ -23,12 +22,12 @@ function classNames(...classes: string[]) {
 interface AppProps {
   presenter: JournalPresenter;
   controller: JournalController;
-  confirmationModal: ConfirmationModal;
 }
 
-function App({ confirmationModal, presenter, controller }: AppProps) {
+function App({ presenter, controller }: AppProps) {
   const {
-    setOpen,
+    showModal,
+    setShowModal,
     cancelButtonRef,
   } = useConfirmationModal();
 
@@ -40,8 +39,6 @@ function App({ confirmationModal, presenter, controller }: AppProps) {
   const {
     journals,
     setJournals,
-    pendingDelete,
-    setPendingDelete,
   } = useJournals();
 
   const onSubmit = async (data: FormInput) => {
@@ -52,34 +49,24 @@ function App({ confirmationModal, presenter, controller }: AppProps) {
   };
 
   useEffect(() => {
-    confirmationModal.loadModal((state) => {
-      setOpen(state.open);
-    })
-  }, [presenter, setOpen]);
-
-  useEffect(() => {
-    presenter.getPendingDeletion((journal) => {
-      setPendingDelete(journal);
-    })
-  }, []);
-
-  useEffect(() => {
-    presenter.getJournals((journals: Journal[]) => {
-      setJournals(journals);
+    presenter.getJournals((journalState: JournalState) => {
+      setJournals({...journalState});
     });
   }, [presenter, setJournals]);
 
-  if (confirmationModal.isOpen()) {
+  if (showModal) {
     return (
       <ConfirmationModalComponent
-        confirmationModal={confirmationModal}
         cancelButtonRef={cancelButtonRef}
+        showModal={showModal}
+        setShowModal={setShowModal}
+        onCancel={() => {
+          controller.resetPendingDeletion();
+          setShowModal(false);
+        }}
         onConfirm={() => {
-          if (!pendingDelete) {
-            return;
-          }
-          controller.delete(pendingDelete)
-          confirmationModal.closeModal();
+          controller.delete(presenter.getPendingDeletion())
+          setShowModal(false);
         }}
       />
     )
@@ -100,10 +87,10 @@ function App({ confirmationModal, presenter, controller }: AppProps) {
             </form>
           </div>
           {
-            journals.length > 0 ? (
+            presenter.hasJournals() ? (
               <ul id="journal-list">
                 {
-                  journals.map((journal) => (
+                  journals.journals.map((journal) => (
                     <li key={journal.id} className="flex mb-4 border p-2 text-left pl-6 items-center">
                       <p className="w-full text-grey-darkest">{journal.title}</p>
                       <button
@@ -117,7 +104,10 @@ function App({ confirmationModal, presenter, controller }: AppProps) {
                       >Favorite</button>
                       <button
                         className="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red"
-                        onClick={() => controller.delete(journal)}
+                        onClick={() => {
+                          controller.delete(journal)
+                          setShowModal(true);
+                        }}
                       >Delete</button>
                     </li>
                   ))

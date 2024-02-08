@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { v4 as uuidv4 } from 'uuid';
 
 import { useJournals } from "./hooks/useJournals";
 import { Journal } from "./modules/journal/journal.ts";
@@ -12,7 +11,7 @@ import { JournalPresenter } from "./modules/journal/journalPresenter.ts";
 import { JournalController } from "./modules/journal/journalController.ts";
 import { ConfirmationModal } from "./components/ConfirmationModal/confirmationModal.ts";
 
-type FormInput = {
+export type FormInput = {
   title: string;
 };
 
@@ -45,34 +44,8 @@ function App({ confirmationModal, presenter, controller }: AppProps) {
     setPendingDelete,
   } = useJournals();
 
-  const handleDelete = async (journal: Journal) => {
-    // If the journal si not a favorite, just delete it.
-    if (!journal.isFavorite) {
-      await controller.delete(journal);
-      return;
-    }
-    // If the journal is a favorite, open the confirmation window and set it to pending deletion.
-    confirmationModal.openModal();
-    await controller.delete(journal);
-  }
-
-  const handleFavorite = async (journal: Journal) => {
-    if (journal.isFavorite) {
-      return;
-    }
-
-    await controller.setFavorite(journal);
-  }
-
   const onSubmit = async (data: FormInput) => {
-
-    const newJournal: Journal = {
-      ...data,
-      id: uuidv4(),
-      isFavorite: false,
-    };
-
-    await controller.add(newJournal);
+    await controller.addFromFormSubmit(data);
 
     // Reset form.
     reset();
@@ -140,11 +113,11 @@ function App({ confirmationModal, presenter, controller }: AppProps) {
                             : 'flex-no-shrink p-2 ml-4 mr-2 border-2 rounded hover:text-white text-green border-green hover:bg-green'
                         )}
                         disabled={journal.isFavorite}
-                        onClick={() => handleFavorite(journal)}
+                        onClick={() => controller.setFavorite(journal)}
                       >Favorite</button>
                       <button
                         className="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red"
-                        onClick={() => handleDelete(journal)}
+                        onClick={() => controller.delete(journal)}
                       >Delete</button>
                     </li>
                   ))

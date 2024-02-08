@@ -46,7 +46,7 @@ export class CompositionRoot {
     }
     const confirmationModal = new ConfirmationModal({ open: false, confirmed: false });
     const foodRepository = new JournalRepository(clientStorage);
-    const foodController = new JournalController(foodRepository);
+    const foodController = new JournalController(foodRepository, confirmationModal);
     const foodPresenter = new JournalPresenter(foodRepository, clientStorage);
     return new JournalModule(
       foodController,

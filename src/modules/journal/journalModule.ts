@@ -1,20 +1,16 @@
 import { JournalPresenter } from "./journalPresenter.ts";
 import { JournalController } from "./journalController.ts";
-import { ConfirmationModal } from "../../shared/confirmationModal/confirmationModal.ts";
 
 export class JournalModule {
   private readonly journalController: JournalController;
   private readonly journalPresenter: JournalPresenter;
-  private readonly confirmationModal: ConfirmationModal;
 
   constructor(
     journalController: JournalController,
     journalPresenter: JournalPresenter,
-    confirmationModal: ConfirmationModal
   ) {
     this.journalController = journalController;
     this.journalPresenter = journalPresenter;
-    this.confirmationModal = confirmationModal;
   }
 
   getJournalController() {
@@ -23,9 +19,5 @@ export class JournalModule {
 
   getJournalPresenter() {
     return this.journalPresenter;
-  }
-
-  getConfirmModal() {
-    return this.confirmationModal;
   }
 }

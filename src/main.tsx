@@ -15,7 +15,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <App
       presenter={journalModule.getJournalPresenter()}
       controller={journalModule.getJournalController()}
-      confirmationModal={journalModule.getConfirmModal()}
     />
   </React.StrictMode>,
 )

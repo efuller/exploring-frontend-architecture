@@ -143,10 +143,6 @@ defineFeature(feature, (test) => {
     });
 
     and('It is set for pending deletion', () => {
-      // const journalPresenter = app.getJournalModule().getJournalPresenter();
-      // journalPresenter.getPendingDeletion((pending: Journal | null) => {
-      //   pendingDeletion = pending;
-      // });
       expect(vm.pendingDeletion?.id).toEqual(vm.journals[0].id)
     });
 
@@ -168,4 +164,51 @@ defineFeature(feature, (test) => {
       expect(vm.journals.filter((f) => f.title === entry).length).toEqual(0);
     });
   });
+
+  test('A journal pending delete can be cancelled', ({ given, and, when, then }) => {
+    given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
+      const controller = app.getJournalModule().getJournalController();
+      const newJournal: Journal = {
+        id: '1',
+        title: entry,
+        isFavorite: false
+      };
+      await controller.add(newJournal);
+
+      const presenter = app.getJournalModule().getJournalPresenter();
+      await presenter.getJournals((journals) => {
+        vm = journals;
+      });
+      expect(vm.journals[0].title).toEqual(entry);
+    });
+
+    and('The journal entry is set as a favorite', async () => {
+      const controller = app.getJournalModule().getJournalController();
+      await controller.setFavorite(vm.journals[0]);
+      expect(vm.journals[0].isFavorite).toBe(true);
+    });
+
+    when('I delete the journal item from the list', async () => {
+      const controller = app.getJournalModule().getJournalController();
+      await controller.delete(vm.journals[0]);
+    });
+
+    and('It is set for pending deletion', () => {
+      expect(vm.pendingDeletion?.id).toEqual(vm.journals[0].id)
+    });
+
+    when('I cancel the deletion', () => {
+      const controller = app.getJournalModule().getJournalController();
+      controller.resetPendingDeletion();
+    });
+
+    then(/^The journal item "(.*)" should still be in the list$/, (entry) => {
+      expect(vm.journals[0].title).toEqual(entry);
+    });
+
+    and('The pending deletion should be removed', () => {
+      expect(vm.pendingDeletion).toBeNull();
+    });
+  });
+
 });

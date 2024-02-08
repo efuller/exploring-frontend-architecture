@@ -7,7 +7,6 @@ import { JournalPresenter } from "../../modules/journal/journalPresenter.ts";
 import { InMemoryClientStorage } from "../../modules/journal/infra/repos/inMemoryClientStorage.ts";
 import { LocalStorageClient } from "../../modules/journal/infra/repos/localStorageClient.ts";
 import { ClientStorageRepository } from "../../modules/journal/clientStorageRepository.ts";
-import { ConfirmationModal } from "../confirmationModal/confirmationModal.ts";
 
 type Context = "test" | "dev" | "prod";
 
@@ -44,14 +43,12 @@ export class CompositionRoot {
     } else {
       clientStorage = new LocalStorageClient();
     }
-    const confirmationModal = new ConfirmationModal({ open: false, confirmed: false });
     const foodRepository = new JournalRepository(clientStorage);
-    const foodController = new JournalController(foodRepository, confirmationModal);
+    const foodController = new JournalController(foodRepository);
     const foodPresenter = new JournalPresenter(foodRepository, clientStorage);
     return new JournalModule(
       foodController,
       foodPresenter,
-      confirmationModal
     );
   }
 

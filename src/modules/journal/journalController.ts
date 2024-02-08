@@ -1,6 +1,6 @@
 import { Journal } from "./journal.ts";
 import { JournalRepository } from "./journalRepository.ts";
-import { ConfirmationModal } from "../../components/ConfirmationModal/confirmationModal.ts";
+import { ConfirmationModal } from "../../shared/confirmationModal/confirmationModal.ts";
 import { FormInput } from "../../App.tsx";
 import { v4 as uuidv4 } from "uuid";
 

@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/24/outline'
-import { ConfirmationModal as ConfirmationModalLogic } from "./confirmationModal.ts";
+import { ConfirmationModal as ConfirmationModalLogic } from "../../shared/confirmationModal/confirmationModal.ts";
 
 type ConfirmationModalProps = {
   cancelButtonRef: React.RefObject<HTMLButtonElement>;

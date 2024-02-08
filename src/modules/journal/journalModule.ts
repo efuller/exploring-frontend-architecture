@@ -1,6 +1,6 @@
 import { JournalPresenter } from "./journalPresenter.ts";
 import { JournalController } from "./journalController.ts";
-import { ConfirmationModal } from "../../components/ConfirmationModal/confirmationModal.ts";
+import { ConfirmationModal } from "../../shared/confirmationModal/confirmationModal.ts";
 
 export class JournalModule {
   private readonly journalController: JournalController;

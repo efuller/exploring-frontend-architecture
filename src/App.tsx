@@ -9,7 +9,7 @@ import { ConfirmationModal as ConfirmationModalComponent } from "./components/Co
 import './App.css'
 import { JournalPresenter } from "./modules/journal/journalPresenter.ts";
 import { JournalController } from "./modules/journal/journalController.ts";
-import { ConfirmationModal } from "./components/ConfirmationModal/confirmationModal.ts";
+import { ConfirmationModal } from "./shared/confirmationModal/confirmationModal.ts";
 
 export type FormInput = {
   title: string;

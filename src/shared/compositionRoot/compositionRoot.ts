@@ -7,7 +7,7 @@ import { JournalPresenter } from "../../modules/journal/journalPresenter.ts";
 import { InMemoryClientStorage } from "../../modules/journal/infra/repos/inMemoryClientStorage.ts";
 import { LocalStorageClient } from "../../modules/journal/infra/repos/localStorageClient.ts";
 import { ClientStorageRepository } from "../../modules/journal/clientStorageRepository.ts";
-import { ConfirmationModal } from "../../components/ConfirmationModal/confirmationModal.ts";
+import { ConfirmationModal } from "../confirmationModal/confirmationModal.ts";
 
 type Context = "test" | "dev" | "prod";
 

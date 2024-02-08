@@ -1,4 +1,4 @@
-import Observable from "../../shared/observable/observable.ts";
+import Observable from "../observable/observable.ts";
 
 export interface ConfirmationModalState {
   open: boolean;

@@ -2,13 +2,16 @@ import Observable from "../../shared/observable/observable.ts";
 import { Journal } from "./journal.ts";
 import { ClientStorageRepository } from "./clientStorageRepository.ts";
 
+export interface JournalState {
+  journals: Journal[];
+  pendingDeletion: Journal | null;
+}
+
 export class JournalRepository {
-  private readonly journals: Observable<Journal[]>;
-  private readonly pendingDeletion: Observable<Journal | null>;
+  private readonly journalState: Observable<JournalState>;
 
   constructor(private readonly clientRepository: ClientStorageRepository) {
-    this.journals = new Observable<Journal[]>([]);
-    this.pendingDeletion = new Observable<Journal | null>(null);
+    this.journalState = new Observable<JournalState>({journals: [], pendingDeletion: null});
 
     this.hydrateFromClientStorage();
   }
@@ -17,41 +20,43 @@ export class JournalRepository {
     // Hydrate journals from client storage on load
     const favorites = await this.clientRepository.getAll();
     if (favorites.length) {
-      this.journals.setValue(favorites);
+      this.journalState.setValue({journals: favorites, pendingDeletion: null});
     }
   }
 
-  async add(food: Journal) {
-    this.journals.setValue([...this.journals.getValue(), food]);
+  async add(journal: Journal) {
+    this.journalState.setValue({
+      journals: [...this.journalState.getValue().journals, journal],
+      pendingDeletion: null,
+    });
   }
 
-  async loadJournals(presenterCb: (journals: Journal[]) => void) {
-    this.journals.subscribe(presenterCb);
+  async loadJournals(presenterCb: (journals: JournalState) => void) {
+    this.journalState.subscribe(presenterCb);
   }
 
   async delete(journal: Journal) {
     // If journal is not a favorite, just delete it
     if (!journal.isFavorite) {
-      const journals = this.journals.getValue();
-      const newJournals = journals.filter(v => v.id !== journal.id);
-      this.journals.setValue(newJournals);
+      const journalState = this.journalState.getValue();
+      const newJournals = journalState.journals.filter(v => v.id !== journal.id);
+      this.journalState.setValue({...journalState, journals: newJournals});
       return;
     }
 
-    const pending = this.pendingDeletion.getValue();
-    if (pending && pending.id === journal.id) {
-      const journals = this.journals.getValue();
+    const { pendingDeletion, journals } = this.journalState.getValue();
+    if (pendingDeletion && pendingDeletion.id === journal.id) {
       const newJournals = journals.filter(v => v.id !== journal.id);
-      this.journals.setValue(newJournals);
+      this.journalState.setValue({journals: newJournals, pendingDeletion: null});
       await this.clientRepository.delete(journal.id);
-      this.pendingDeletion.setValue(null);
+      this.journalState.setValue({...this.journalState.getValue(), pendingDeletion: null});
       return;
     }
-    this.pendingDeletion.setValue(this.journals.getValue().find(v => v.id === journal.id) || null);
+    this.journalState.setValue({...this.journalState.getValue(), pendingDeletion: journal});
   }
 
   async setFavorite(journal: Journal) {
-    const journals = this.journals.getValue();
+    const { journals } = this.journalState.getValue();
     const newJournals = journals.map(f => {
       if (f.id === journal.id) {
         return {...journal, isFavorite: !journal.isFavorite};
@@ -59,10 +64,18 @@ export class JournalRepository {
       return f;
     });
     await this.clientRepository.add(journal);
-    this.journals.setValue(newJournals);
+    this.journalState.setValue({journals: newJournals, pendingDeletion: null});
   }
 
-  async getPendingDeletion(presenterCb: (journal: Journal | null) => void) {
-    this.pendingDeletion.subscribe(presenterCb);
+  resetPendingDeletion() {
+    this.journalState.setValue({...this.journalState.getValue(), pendingDeletion: null});
+  }
+
+  hasJournals() {
+    return this.journalState.getValue().journals.length > 0;
+  }
+
+  getPendingDeletion() {
+    return this.journalState.getValue().pendingDeletion;
   }
 }

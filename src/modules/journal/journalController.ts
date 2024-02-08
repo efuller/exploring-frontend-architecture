@@ -7,14 +7,17 @@ import { v4 as uuidv4 } from "uuid";
 export class JournalController {
   constructor(
     private readonly journalRepository: JournalRepository,
-    private readonly confirmationModal: ConfirmationModal
+    public confirmationModal: ConfirmationModal
   ) {}
 
   async add(journal: Journal) {
     await this.journalRepository.add(journal);
   }
 
-  async delete(journal: Journal) {
+  async delete(journal: Journal | null) {
+    if (!journal) {
+      return;
+    }
     // If the journal si not a favorite, just delete it.
     if (!journal.isFavorite) {
       await this.journalRepository.delete(journal);
@@ -41,5 +44,9 @@ export class JournalController {
     };
 
     await this.add(newJournal);
+  }
+
+  resetPendingDeletion() {
+    this.journalRepository.resetPendingDeletion();
   }
 }

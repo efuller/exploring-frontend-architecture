@@ -2,19 +2,20 @@ import { defineFeature, loadFeature } from "jest-cucumber";
 import { CompositionRoot } from "../../../src/shared/compositionRoot/compositionRoot";
 import { App } from "../../../src/shared/app/app";
 import { Journal } from "../../../src/modules/journal/journal";
+import { JournalState } from "../../../src/modules/journal/journalRepository";
 
 const feature = loadFeature('tests/app/journal/journal.app.feature');
 
 defineFeature(feature, (test) => {
   let compositionRoot: CompositionRoot;
   let app: App;
-  let vm: Journal[];
+  let vm: JournalState;
   let pendingDeletion: Journal | null;
 
   beforeEach(() => {
     compositionRoot = new CompositionRoot("test");
     app = compositionRoot.getApp();
-    vm = [];
+    vm = { journals: [], pendingDeletion: null };
     pendingDeletion = null;
   });
 
@@ -38,7 +39,7 @@ defineFeature(feature, (test) => {
       await presenter.getJournals((journals) => {
         vm = journals;
       });
-      expect(vm[0].title).toEqual(entry);
+      expect(vm.journals[0].title).toEqual(entry);
     });
   });
 
@@ -56,12 +57,12 @@ defineFeature(feature, (test) => {
       await presenter.getJournals((journals) => {
         vm = journals;
       });
-      expect(vm[0].title).toEqual(entry);
+      expect(vm.journals[0].title).toEqual(entry);
     });
 
     when('I delete the journal item from the list', async () => {
       const controller = app.getJournalModule().getJournalController();
-      await controller.delete(vm[0]);
+      await controller.delete(vm.journals[0]);
     });
 
     then(/^The journal item "(.*)" should no longer be in the list$/, async () => {
@@ -69,7 +70,7 @@ defineFeature(feature, (test) => {
       await presenter.getJournals((journals) => {
         vm = journals;
       });
-      expect(vm.length).toBe(0);
+      expect(vm.journals.length).toBe(0);
     });
   });
 
@@ -87,13 +88,13 @@ defineFeature(feature, (test) => {
       await presenter.getJournals((journals) => {
         vm = journals;
       });
-      expect(vm[0].title).toEqual(entry);
-      expect(vm[0].isFavorite).toBe(false);
+      expect(vm.journals[0].title).toEqual(entry);
+      expect(vm.journals[0].isFavorite).toBe(false);
     });
 
     when('The journal entry is set as a favorite', async () => {
       const controller = app.getJournalModule().getJournalController();
-      await controller.setFavorite(vm[0]);
+      await controller.setFavorite(vm.journals[0]);
     });
 
     then(/^The journal entry "(.*)" should be marked as a favorite$/, async (entry) => {
@@ -101,8 +102,8 @@ defineFeature(feature, (test) => {
       await presenter.getJournals((journals) => {
         vm = journals;
       });
-      expect(vm[0].title).toEqual(entry);
-      expect(vm[0].isFavorite).toBe(true);
+      expect(vm.journals[0].title).toEqual(entry);
+      expect(vm.journals[0].isFavorite).toBe(true);
     });
 
     and(/^The favorite journal "(.*)" should be saved to the client storage repository$/, async (entry) => {
@@ -127,44 +128,44 @@ defineFeature(feature, (test) => {
       await presenter.getJournals((journals) => {
         vm = journals;
       });
-      expect(vm[0].title).toEqual(entry);
+      expect(vm.journals[0].title).toEqual(entry);
     });
 
     and('The journal entry is set as a favorite', async () => {
       const controller = app.getJournalModule().getJournalController();
-      await controller.setFavorite(vm[0]);
-      expect(vm[0].isFavorite).toBe(true);
+      await controller.setFavorite(vm.journals[0]);
+      expect(vm.journals[0].isFavorite).toBe(true);
     });
 
     when('I delete the journal item from the list', async () => {
       const controller = app.getJournalModule().getJournalController();
-      await controller.delete(vm[0]);
+      await controller.delete(vm.journals[0]);
     });
 
     and('It is set for pending deletion', () => {
-      const journalPresenter = app.getJournalModule().getJournalPresenter();
-      journalPresenter.getPendingDeletion((pending: Journal | null) => {
-        pendingDeletion = pending;
-      });
-      expect(pendingDeletion?.id).toEqual(vm[0].id)
+      // const journalPresenter = app.getJournalModule().getJournalPresenter();
+      // journalPresenter.getPendingDeletion((pending: Journal | null) => {
+      //   pendingDeletion = pending;
+      // });
+      expect(vm.pendingDeletion?.id).toEqual(vm.journals[0].id)
     });
 
     and('I confirm the deletion', async () => {
       const journalController = app.getJournalModule().getJournalController();
-      await journalController.delete(vm[0]);
+      await journalController.delete(vm.journals[0]);
       expect(pendingDeletion).toBeNull();
     });
 
     then(/^The journal item "(.*)" should no longer be in the list$/, (entry) => {
-      expect(vm.length).toEqual(0);
-      expect(vm.filter((f) => f.title === entry).length).toEqual(0);
+      expect(vm.journals.length).toEqual(0);
+      expect(vm.journals.filter((f) => f.title === entry).length).toEqual(0);
     });
 
     and(/^The favorite journal "(.*)" should be removed from the client storage repository$/, async (entry) => {
       const journalPresenter = app.getJournalModule().getJournalPresenter();
       const favorites = await journalPresenter.loadFavoriteJournals();
       expect(favorites.length).toBe(0);
-      expect(vm.filter((f) => f.title === entry).length).toEqual(0);
+      expect(vm.journals.filter((f) => f.title === entry).length).toEqual(0);
     });
   });
 });

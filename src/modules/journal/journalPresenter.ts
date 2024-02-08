@@ -1,5 +1,4 @@
-import { JournalRepository } from "./journalRepository.ts";
-import { Journal } from "./journal.ts";
+import { JournalRepository, JournalState } from "./journalRepository.ts";
 import { ClientStorageRepository } from "./clientStorageRepository.ts";
 
 export class JournalPresenter {
@@ -14,17 +13,19 @@ export class JournalPresenter {
     this.clientRepo = clientRepo;
   }
 
-  async getJournals(componentCb: (journals: Journal[]) => void) {
+  async getJournals(componentCb: (journalState: JournalState) => void) {
     await this.journalRepo.loadJournals((journalsCache) => {
       // Map over the foodsCache and return a new view model.
       componentCb(journalsCache);
     });
   }
 
-  async getPendingDeletion(componentCb: (journal: Journal | null) => void) {
-    await this.journalRepo.getPendingDeletion((journal) => {
-      componentCb(journal);
-    });
+  hasJournals() {
+    return this.journalRepo.hasJournals();
+  }
+
+  getPendingDeletion() {
+    return this.journalRepo.getPendingDeletion();
   }
 
   async loadFavoriteJournals() {

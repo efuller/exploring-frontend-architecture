@@ -1,7 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { useJournals } from "./hooks/useJournals";
 import { useConfirmationModal } from "./components/ConfirmationModal/useConfirmationModal.ts";
 import { ConfirmationModal as ConfirmationModalComponent } from "./components/ConfirmationModal";
 
@@ -25,6 +24,11 @@ interface AppProps {
 }
 
 function App({ presenter, controller }: AppProps) {
+  const [journalVm, setJournalVm] = useState<JournalState>({
+    journals: [],
+    pendingDeletion: null,
+  });
+
   const {
     showModal,
     setShowModal,
@@ -36,10 +40,6 @@ function App({ presenter, controller }: AppProps) {
     handleSubmit,
     reset,
   } = useForm<FormInput>();
-  const {
-    journals,
-    setJournals,
-  } = useJournals();
 
   const onSubmit = async (data: FormInput) => {
     await controller.addFromFormSubmit(data);
@@ -50,9 +50,9 @@ function App({ presenter, controller }: AppProps) {
 
   useEffect(() => {
     presenter.getJournals((journalState: JournalState) => {
-      setJournals({...journalState});
+      setJournalVm({...journalState});
     });
-  }, [presenter, setJournals]);
+  }, [presenter, setJournalVm]);
 
   if (showModal) {
     return (
@@ -72,7 +72,6 @@ function App({ presenter, controller }: AppProps) {
     )
   }
 
-  console.log('journals', journals);
   return (
     <>
       <div className="h-100 w-full flex items-center justify-center bg-blue-400 font-sans">
@@ -90,7 +89,7 @@ function App({ presenter, controller }: AppProps) {
             presenter.hasJournals() ? (
               <ul id="journal-list">
                 {
-                  journals.journals.map((journal) => (
+                  journalVm.journals.map((journal) => (
                     <li key={journal.id} className="flex mb-4 border p-2 text-left pl-6 items-center">
                       <p className="w-full text-grey-darkest">{journal.title}</p>
                       <button

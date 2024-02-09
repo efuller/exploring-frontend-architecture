@@ -1,4 +1,4 @@
-type RouteId = 'home' | 'food';
+type RouteId = 'home' | 'journal';
 
 type Route = {
   active: boolean;

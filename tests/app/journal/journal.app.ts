@@ -3,6 +3,7 @@ import { CompositionRoot } from "../../../src/shared/compositionRoot/composition
 import { App } from "../../../src/shared/app/app";
 import { Journal } from "../../../src/modules/journal/journal";
 import { JournalState } from "../../../src/modules/journal/journalRepository";
+import { IdGenerator } from "../../../src/shared/idGenerator/idGenerator";
 
 const feature = loadFeature('tests/app/journal/journal.app.feature');
 
@@ -27,7 +28,7 @@ defineFeature(feature, (test) => {
     when(/^I add a new journal called "(.*)"$/, (entry) => {
       const controller = app.getJournalModule().getJournalController();
       const newJournal: Journal = {
-        id: '1',
+        id: IdGenerator.generateId(),
         title: entry,
         isFavorite: false
       };
@@ -47,7 +48,7 @@ defineFeature(feature, (test) => {
     given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
       const controller = app.getJournalModule().getJournalController();
       const newJournal: Journal = {
-        id: '1',
+        id: IdGenerator.generateId(),
         title: entry,
         isFavorite: false
       };
@@ -78,7 +79,7 @@ defineFeature(feature, (test) => {
     given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
       const controller = app.getJournalModule().getJournalController();
       const newJournal: Journal = {
-        id: '1',
+        id: IdGenerator.generateId(),
         title: entry,
         isFavorite: false
       };
@@ -118,7 +119,7 @@ defineFeature(feature, (test) => {
     given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
       const controller = app.getJournalModule().getJournalController();
       const newJournal: Journal = {
-        id: '1',
+        id: IdGenerator.generateId(),
         title: entry,
         isFavorite: false
       };
@@ -169,7 +170,7 @@ defineFeature(feature, (test) => {
     given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
       const controller = app.getJournalModule().getJournalController();
       const newJournal: Journal = {
-        id: '1',
+        id: IdGenerator.generateId(),
         title: entry,
         isFavorite: false
       };

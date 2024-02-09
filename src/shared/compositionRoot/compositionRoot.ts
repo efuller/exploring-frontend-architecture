@@ -16,9 +16,9 @@ export const routeMap: RouteMap = {
     id: 'home',
     path: '/',
   },
-  food: {
+  journal: {
     active: false,
-    id: 'food',
+    id: 'journal',
     path: '/journal',
   },
 };
@@ -43,12 +43,12 @@ export class CompositionRoot {
     } else {
       clientStorage = new LocalStorageClient();
     }
-    const foodRepository = new JournalRepository(clientStorage);
-    const foodController = new JournalController(foodRepository);
-    const foodPresenter = new JournalPresenter(foodRepository, clientStorage);
+    const journalRepository = new JournalRepository(clientStorage);
+    const journalController = new JournalController(journalRepository);
+    const journalPresenter = new JournalPresenter(journalRepository, clientStorage);
     return new JournalModule(
-      foodController,
-      foodPresenter,
+      journalController,
+      journalPresenter,
     );
   }
 

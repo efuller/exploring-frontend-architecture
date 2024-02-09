@@ -5,6 +5,7 @@ import { Journal } from "../../../src/modules/journal/journal";
 import { JournalState } from "../../../src/modules/journal/journalRepository";
 import { IdGenerator } from "../../../src/shared/idGenerator/idGenerator";
 import { JournalController } from "../../../src/modules/journal/journalController";
+import { JournalPresenter } from "../../../src/modules/journal/journalPresenter";
 
 const feature = loadFeature('tests/app/journal/journal.app.feature');
 
@@ -14,11 +15,13 @@ defineFeature(feature, (test) => {
   let vm: JournalState;
   let pendingDeletion: Journal | null;
   let journalController: JournalController;
+  let journalPresenter: JournalPresenter;
 
   beforeEach(() => {
     compositionRoot = new CompositionRoot("test");
     app = compositionRoot.getApp();
     journalController = app.getJournalModule().getJournalController();
+    journalPresenter = app.getJournalModule().getJournalPresenter();
     vm = { journals: [], pendingDeletion: null };
     pendingDeletion = null;
   });
@@ -38,8 +41,7 @@ defineFeature(feature, (test) => {
     });
 
     then(/^I should see the journal "(.*)" in the list of journal entries$/, async (entry) => {
-      const presenter = app.getJournalModule().getJournalPresenter();
-      await presenter.getJournals((journals) => {
+      await journalPresenter.getJournals((journals) => {
         vm = journals;
       });
       expect(vm.journals[0].title).toEqual(entry);
@@ -55,8 +57,7 @@ defineFeature(feature, (test) => {
       };
       await journalController.add(newJournal);
 
-      const presenter = app.getJournalModule().getJournalPresenter();
-      await presenter.getJournals((journals) => {
+      await journalPresenter.getJournals((journals) => {
         vm = journals;
       });
       expect(vm.journals[0].title).toEqual(entry);
@@ -67,8 +68,7 @@ defineFeature(feature, (test) => {
     });
 
     then(/^The journal item "(.*)" should no longer be in the list$/, async () => {
-      const presenter = app.getJournalModule().getJournalPresenter();
-      await presenter.getJournals((journals) => {
+      await journalPresenter.getJournals((journals) => {
         vm = journals;
       });
       expect(vm.journals.length).toBe(0);
@@ -84,8 +84,7 @@ defineFeature(feature, (test) => {
       };
       await journalController.add(newJournal);
 
-      const presenter = app.getJournalModule().getJournalPresenter();
-      await presenter.getJournals((journals) => {
+      await journalPresenter.getJournals((journals) => {
         vm = journals;
       });
       expect(vm.journals[0].title).toEqual(entry);
@@ -97,8 +96,7 @@ defineFeature(feature, (test) => {
     });
 
     then(/^The journal entry "(.*)" should be marked as a favorite$/, async (entry) => {
-      const presenter = app.getJournalModule().getJournalPresenter();
-      await presenter.getJournals((journals) => {
+      await journalPresenter.getJournals((journals) => {
         vm = journals;
       });
       expect(vm.journals[0].title).toEqual(entry);
@@ -106,8 +104,7 @@ defineFeature(feature, (test) => {
     });
 
     and(/^The favorite journal "(.*)" should be saved to the client storage repository$/, async (entry) => {
-      const presenter = app.getJournalModule().getJournalPresenter();
-      const favorites = await presenter.loadFavoriteJournals();
+      const favorites = await journalPresenter.loadFavoriteJournals();
       expect(favorites.length).toBe(1);
       expect(favorites[0].title).toEqual(entry);
     });
@@ -122,8 +119,7 @@ defineFeature(feature, (test) => {
       };
       await journalController.add(newJournal);
 
-      const presenter = app.getJournalModule().getJournalPresenter();
-      await presenter.getJournals((journals) => {
+      await journalPresenter.getJournals((journals) => {
         vm = journals;
       });
       expect(vm.journals[0].title).toEqual(entry);
@@ -170,8 +166,7 @@ defineFeature(feature, (test) => {
       };
       await journalController.add(newJournal);
 
-      const presenter = app.getJournalModule().getJournalPresenter();
-      await presenter.getJournals((journals) => {
+      await journalPresenter.getJournals((journals) => {
         vm = journals;
       });
       expect(vm.journals[0].title).toEqual(entry);

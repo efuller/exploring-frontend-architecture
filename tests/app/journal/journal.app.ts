@@ -4,6 +4,7 @@ import { App } from "../../../src/shared/app/app";
 import { Journal } from "../../../src/modules/journal/journal";
 import { JournalState } from "../../../src/modules/journal/journalRepository";
 import { IdGenerator } from "../../../src/shared/idGenerator/idGenerator";
+import { JournalController } from "../../../src/modules/journal/journalController";
 
 const feature = loadFeature('tests/app/journal/journal.app.feature');
 
@@ -12,10 +13,12 @@ defineFeature(feature, (test) => {
   let app: App;
   let vm: JournalState;
   let pendingDeletion: Journal | null;
+  let journalController: JournalController;
 
   beforeEach(() => {
     compositionRoot = new CompositionRoot("test");
     app = compositionRoot.getApp();
+    journalController = app.getJournalModule().getJournalController();
     vm = { journals: [], pendingDeletion: null };
     pendingDeletion = null;
   });
@@ -26,13 +29,12 @@ defineFeature(feature, (test) => {
     });
 
     when(/^I add a new journal called "(.*)"$/, (entry) => {
-      const controller = app.getJournalModule().getJournalController();
       const newJournal: Journal = {
         id: IdGenerator.generateId(),
         title: entry,
         isFavorite: false
       };
-      controller.add(newJournal);
+      journalController.add(newJournal);
     });
 
     then(/^I should see the journal "(.*)" in the list of journal entries$/, async (entry) => {
@@ -46,13 +48,12 @@ defineFeature(feature, (test) => {
 
   test('A journal can be deleted from the list', ({ given, when, then }) => {
     given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
-      const controller = app.getJournalModule().getJournalController();
       const newJournal: Journal = {
         id: IdGenerator.generateId(),
         title: entry,
         isFavorite: false
       };
-      await controller.add(newJournal);
+      await journalController.add(newJournal);
 
       const presenter = app.getJournalModule().getJournalPresenter();
       await presenter.getJournals((journals) => {
@@ -62,8 +63,7 @@ defineFeature(feature, (test) => {
     });
 
     when('I delete the journal item from the list', async () => {
-      const controller = app.getJournalModule().getJournalController();
-      await controller.delete(vm.journals[0]);
+      await journalController.delete(vm.journals[0]);
     });
 
     then(/^The journal item "(.*)" should no longer be in the list$/, async () => {
@@ -77,13 +77,12 @@ defineFeature(feature, (test) => {
 
   test('A journal can be set as a favorite', ({ given, when, then, and }) => {
     given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
-      const controller = app.getJournalModule().getJournalController();
       const newJournal: Journal = {
         id: IdGenerator.generateId(),
         title: entry,
         isFavorite: false
       };
-      await controller.add(newJournal);
+      await journalController.add(newJournal);
 
       const presenter = app.getJournalModule().getJournalPresenter();
       await presenter.getJournals((journals) => {
@@ -94,8 +93,7 @@ defineFeature(feature, (test) => {
     });
 
     when('The journal entry is set as a favorite', async () => {
-      const controller = app.getJournalModule().getJournalController();
-      await controller.setFavorite(vm.journals[0]);
+      await journalController.setFavorite(vm.journals[0]);
     });
 
     then(/^The journal entry "(.*)" should be marked as a favorite$/, async (entry) => {
@@ -117,13 +115,12 @@ defineFeature(feature, (test) => {
 
   test('Delete a journal that is marked as a favorite', ({ given, and, when, then }) => {
     given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
-      const controller = app.getJournalModule().getJournalController();
       const newJournal: Journal = {
         id: IdGenerator.generateId(),
         title: entry,
         isFavorite: false
       };
-      await controller.add(newJournal);
+      await journalController.add(newJournal);
 
       const presenter = app.getJournalModule().getJournalPresenter();
       await presenter.getJournals((journals) => {
@@ -133,14 +130,12 @@ defineFeature(feature, (test) => {
     });
 
     and('The journal entry is set as a favorite', async () => {
-      const controller = app.getJournalModule().getJournalController();
-      await controller.setFavorite(vm.journals[0]);
+      await journalController.setFavorite(vm.journals[0]);
       expect(vm.journals[0].isFavorite).toBe(true);
     });
 
     when('I delete the journal item from the list', async () => {
-      const controller = app.getJournalModule().getJournalController();
-      await controller.delete(vm.journals[0]);
+      await journalController.delete(vm.journals[0]);
     });
 
     and('It is set for pending deletion', () => {
@@ -168,13 +163,12 @@ defineFeature(feature, (test) => {
 
   test('A journal pending delete can be cancelled', ({ given, and, when, then }) => {
     given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
-      const controller = app.getJournalModule().getJournalController();
       const newJournal: Journal = {
         id: IdGenerator.generateId(),
         title: entry,
         isFavorite: false
       };
-      await controller.add(newJournal);
+      await journalController.add(newJournal);
 
       const presenter = app.getJournalModule().getJournalPresenter();
       await presenter.getJournals((journals) => {
@@ -184,14 +178,12 @@ defineFeature(feature, (test) => {
     });
 
     and('The journal entry is set as a favorite', async () => {
-      const controller = app.getJournalModule().getJournalController();
-      await controller.setFavorite(vm.journals[0]);
+      await journalController.setFavorite(vm.journals[0]);
       expect(vm.journals[0].isFavorite).toBe(true);
     });
 
     when('I delete the journal item from the list', async () => {
-      const controller = app.getJournalModule().getJournalController();
-      await controller.delete(vm.journals[0]);
+      await journalController.delete(vm.journals[0]);
     });
 
     and('It is set for pending deletion', () => {
@@ -199,8 +191,7 @@ defineFeature(feature, (test) => {
     });
 
     when('I cancel the deletion', () => {
-      const controller = app.getJournalModule().getJournalController();
-      controller.resetPendingDeletion();
+      journalController.resetPendingDeletion();
     });
 
     then(/^The journal item "(.*)" should still be in the list$/, (entry) => {

@@ -1,4 +1,3 @@
-import { RouteMap, Router } from "../router/router.ts";
 import { JournalModule } from "../../modules/journal/journalModule.ts";
 import { App } from "../app/app.ts";
 import { JournalRepository } from "../../modules/journal/journalRepository.ts";
@@ -10,29 +9,14 @@ import { ClientStorageRepository } from "../../modules/journal/clientStorageRepo
 
 type Context = "test" | "dev" | "prod";
 
-export const routeMap: RouteMap = {
-  home: {
-    active: true,
-    id: 'home',
-    path: '/',
-  },
-  journal: {
-    active: false,
-    id: 'journal',
-    path: '/journal',
-  },
-};
-
 export class CompositionRoot {
   private readonly context: Context;
   private readonly app: App;
-  private readonly router: Router;
 
   constructor(context: Context = "dev") {
     this.context = context;
-    this.router = new Router(routeMap);
     const journalModule = this.createJournalModule();
-    this.app = new App({ journalModule }, this.router);
+    this.app = new App({ journalModule });
   }
 
   createJournalModule() {

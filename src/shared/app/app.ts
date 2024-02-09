@@ -1,4 +1,3 @@
-import { Router } from "../router/router.ts";
 import { JournalModule } from "../../modules/journal/journalModule.ts";
 
 type AppModules = {
@@ -7,18 +6,12 @@ type AppModules = {
 
 export class App {
   private readonly modules: AppModules;
-  private readonly router: Router;
 
-  constructor(modules: AppModules, router: Router) {
+  constructor(modules: AppModules) {
     this.modules = modules;
-    this.router = router;
   }
 
   getJournalModule() {
     return this.modules.journalModule;
-  }
-
-  getCurrentRouteId() {
-    return this.router.getCurrentRouteId();
   }
 }

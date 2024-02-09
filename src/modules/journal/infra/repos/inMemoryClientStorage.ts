@@ -2,21 +2,21 @@ import { Journal } from "../../journal.ts";
 import { ClientStorageRepository } from "../../clientStorageRepository.ts";
 
 export class InMemoryClientStorage implements ClientStorageRepository {
-  private foods: Journal[];
+  private journals: Journal[];
 
   constructor() {
-    this.foods = [];
+    this.journals = [];
   }
 
-  async add(food: Journal) {
-    this.foods.push(food);
+  async add(journal: Journal) {
+    this.journals.push(journal);
   }
 
   async delete(id: string) {
-    this.foods = this.foods.filter((food) => food.id !== id);
+    this.journals = this.journals.filter((journal) => journal.id !== id);
   }
 
   async getAll() {
-    return this.foods;
+    return this.journals;
   }
 }

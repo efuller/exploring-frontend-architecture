@@ -5,7 +5,7 @@ export class LocalStorageClient implements ClientStorageRepository {
   private readonly LOCAL_STORAGE_KEY = "journal";
 
   async add(journal: Journal) {
-    // check if foodId is already in localStorage
+    // check if journal is already in localStorage
     const journals = await this.getAll();
     const exists = journals.find(item => item.id === journal.id);
     if (exists) {
@@ -16,7 +16,7 @@ export class LocalStorageClient implements ClientStorageRepository {
   }
 
   async delete(id: string) {
-    // Check if foodId is in localStorage
+    // Check if journal is in localStorage
     const journals = await this.getAll();
     const exists = journals.find(journal => journal.id === id);
     if (!exists) {
@@ -34,10 +34,10 @@ export class LocalStorageClient implements ClientStorageRepository {
       if (!key) {
         continue;
       }
-      const foodId = localStorage.getItem(key);
-      if (foodId) {
-        const food = JSON.parse(foodId);
-        journals.push(...food);
+      const journal = localStorage.getItem(key);
+      if (journal) {
+        const parsedJournal = JSON.parse(journal);
+        journals.push(...parsedJournal);
       }
     }
     return journals;

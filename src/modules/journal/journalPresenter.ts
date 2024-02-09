@@ -15,7 +15,7 @@ export class JournalPresenter {
 
   async getJournals(componentCb: (journalState: JournalState) => void) {
     await this.journalRepo.loadJournals((journalsCache) => {
-      // Map over the foodsCache and return a new view model.
+      // Map over the journalState and return a new view model.
       componentCb(journalsCache);
     });
   }

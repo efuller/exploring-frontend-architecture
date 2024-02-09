@@ -27,8 +27,18 @@ defineFeature(feature, (test) => {
   });
 
   test('I can create a new journal entry', ({given, when, then}) => {
-    given('I am on the homepage page', () => {
-      expect(app.getCurrentRouteId()).toBe('home');
+    given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
+      const newJournal: Journal = {
+        id: IdGenerator.generateId(),
+        title: entry,
+        isFavorite: false
+      };
+      await journalController.add(newJournal);
+
+      await journalPresenter.getJournals((journals) => {
+        vm = journals;
+      });
+      expect(vm.journals[0].title).toEqual(entry);
     });
 
     when(/^I add a new journal called "(.*)"$/, (entry) => {
@@ -44,7 +54,7 @@ defineFeature(feature, (test) => {
       await journalPresenter.getJournals((journals) => {
         vm = journals;
       });
-      expect(vm.journals[0].title).toEqual(entry);
+      expect(vm.journals[1].title).toEqual(entry);
     });
   });
 

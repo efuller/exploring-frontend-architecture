@@ -8,10 +8,10 @@ Feature: Journal Management
     When I add a new journal called "Took out the trash"
     Then I should see the journal "Took out the trash" in the list of journal entries
 
-#  Scenario: A journal can be deleted from the list
-#    When I delete the journal item from the list
-#    Then The journal item "The weather is great" should no longer be in the list
-#
+  Scenario: A journal can be deleted from the list
+    When I delete the journal item from the list
+    Then The journal item "The weather is great" should no longer be in the list
+
 #  Scenario: A journal can be set as a favorite
 #    When The journal entry is set as a favorite
 #    Then The journal entry "The weather is great" should be marked as a favorite

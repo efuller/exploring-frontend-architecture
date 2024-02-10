@@ -27,7 +27,7 @@ defineFeature(feature, (test) => {
     // pendingDeletion = null;
   });
 
-  test.only('I can create a new journal entry', ({given, when, then}) => {
+  test('I can create a new journal entry', ({given, when, then}) => {
     given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
       await journalController.add(journal);
 
@@ -50,33 +50,28 @@ defineFeature(feature, (test) => {
     });
   });
 
-//   test('A journal can be deleted from the list', ({ given, when, then }) => {
-//     given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
-//       const newJournal: Journal = {
-//         id: IdGenerator.generateId(),
-//         title: entry,
-//         isFavorite: false
-//       };
-//       await journalController.add(newJournal);
-//
-//       await journalPresenter.getJournals((journals) => {
-//         vm = journals;
-//       });
-//       expect(vm.journals[0].title).toEqual(entry);
-//     });
-//
-//     when('I delete the journal item from the list', async () => {
-//       await journalController.delete(vm.journals[0]);
-//     });
-//
-//     then(/^The journal item "(.*)" should no longer be in the list$/, async () => {
-//       await journalPresenter.getJournals((journals) => {
-//         vm = journals;
-//       });
-//       expect(vm.journals.length).toBe(0);
-//     });
-//   });
-//
+  test('A journal can be deleted from the list', ({ given, when, then }) => {
+    given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
+      await journalController.add(journal);
+
+      await journalPresenter.getJournals((journals) => {
+        vm = journals;
+      });
+      expect(vm.journals[0].title).toEqual(entry);
+    });
+
+    when('I delete the journal item from the list', async () => {
+      await journalController.delete(Journal.create(vm.journals[0])); // Could probably just pass an id here.
+    });
+
+    then(/^The journal item "(.*)" should no longer be in the list$/, async () => {
+      await journalPresenter.getJournals((journals) => {
+        vm = journals;
+      });
+      expect(vm.journals.length).toBe(0);
+    });
+  });
+
 //   test('A journal can be set as a favorite', ({ given, when, then, and }) => {
 //     given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
 //       const newJournal: Journal = {

@@ -7,6 +7,10 @@ export class JournalViewModel {
   getJournals() {
     return this.props.journals;
   }
+
+  getPendingDeletion() {
+    return this.props.pendingDeletion;
+  }
 }
 
 export class JournalPresenter {

@@ -49,134 +49,133 @@ defineFeature(feature, (test) => {
     });
   });
 
-  // test('A journal can be deleted from the list', ({ given, when, then }) => {
-  //   given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
-  //     await journalController.add(journal);
-  //
-  //     await journalPresenter.getJournals((journals) => {
-  //       vm = journals;
-  //     });
-  //     expect(vm.journals[0].title).toEqual(entry);
-  //   });
-  //
-  //   when('I delete the journal item from the list', async () => {
-  //     await journalController.delete(Journal.create(vm.journals[0])); // Could probably just pass an id here.
-  //   });
-  //
-  //   then(/^The journal item "(.*)" should no longer be in the list$/, async () => {
-  //     await journalPresenter.getJournals((journals) => {
-  //       vm = journals;
-  //     });
-  //     expect(vm.journals.length).toBe(0);
-  //   });
-  // });
-  //
-  // test('A journal can be set as a favorite', ({ given, when, then, and }) => {
-  //   given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
-  //     await journalController.add(journal);
-  //
-  //     await journalPresenter.getJournals((journals) => {
-  //       vm = journals;
-  //     });
-  //     expect(vm.journals[0].title).toEqual(entry);
-  //     expect(vm.journals[0].isFavorite).toBe(false);
-  //   });
-  //
-  //   when('The journal entry is set as a favorite', async () => {
-  //     await journalController.setFavorite(Journal.create(vm.journals[0]));
-  //   });
-  //
-  //   then(/^The journal entry "(.*)" should be marked as a favorite$/, async (entry) => {
-  //     await journalPresenter.getJournals((journals) => {
-  //       vm = journals;
-  //     });
-  //     expect(vm.journals[0].title).toEqual(entry);
-  //     expect(vm.journals[0].isFavorite).toBe(true);
-  //   });
-  //
-  //   and(/^The favorite journal "(.*)" should be saved to the client storage repository$/, async (entry) => {
-  //     const favorites = await journalPresenter.loadFavoriteJournals();
-  //     expect(favorites.length).toBe(1);
-  //     expect(favorites[0].title).toEqual(entry);
-  //   });
-  // });
-  //
-  // test('Delete a journal that is marked as a favorite', ({ given, and, when, then }) => {
-  //   given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
-  //     await journalController.add(journal);
-  //
-  //     await journalPresenter.getJournals((journals) => {
-  //       vm = journals;
-  //     });
-  //     expect(vm.journals[0].title).toEqual(entry);
-  //   });
-  //
-  //   and('The journal entry is set as a favorite', async () => {
-  //     await journalController.setFavorite(Journal.create(vm.journals[0]));
-  //     expect(vm.journals[0].isFavorite).toBe(true);
-  //   });
-  //
-  //   when('I delete the journal item from the list', async () => {
-  //     await journalController.delete(Journal.create(vm.journals[0]));
-  //   });
-  //
-  //   and('It is set for pending deletion', () => {
-  //     expect(vm.pendingDeletion?.id).toEqual(vm.journals[0].id)
-  //   });
-  //
-  //   and('I confirm the deletion', async () => {
-  //     const journalController = app.getJournalModule().getJournalController();
-  //     await journalController.delete(Journal.create(vm.journals[0]));
-  //     expect(pendingDeletion).toBeNull();
-  //   });
-  //
-  //   then(/^The journal item "(.*)" should no longer be in the list$/, (entry) => {
-  //     expect(vm.journals.length).toEqual(0);
-  //     expect(vm.journals.filter((f) => f.title === entry).length).toEqual(0);
-  //   });
-  //
-  //   and(/^The favorite journal "(.*)" should be removed from the client storage repository$/, async (entry) => {
-  //     const journalPresenter = app.getJournalModule().getJournalPresenter();
-  //     const favorites = await journalPresenter.loadFavoriteJournals();
-  //     expect(favorites.length).toBe(0);
-  //     expect(vm.journals.filter((f) => f.title === entry).length).toEqual(0);
-  //   });
-  // });
-  //
-  // test('A journal pending delete can be cancelled', ({ given, and, when, then }) => {
-  //   given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
-  //     await journalController.add(journal);
-  //
-  //     await journalPresenter.getJournals((journals) => {
-  //       vm = journals;
-  //     });
-  //     expect(vm.journals[0].title).toEqual(entry);
-  //   });
-  //
-  //   and('The journal entry is set as a favorite', async () => {
-  //     await journalController.setFavorite(Journal.create(vm.journals[0]));
-  //     expect(vm.journals[0].isFavorite).toBe(true);
-  //   });
-  //
-  //   when('I delete the journal item from the list', async () => {
-  //     await journalController.delete(Journal.create(vm.journals[0]));
-  //   });
-  //
-  //   and('It is set for pending deletion', () => {
-  //     expect(vm.pendingDeletion?.id).toEqual(vm.journals[0].id)
-  //   });
-  //
-  //   when('I cancel the deletion', () => {
-  //     journalController.resetPendingDeletion();
-  //   });
-  //
-  //   then(/^The journal item "(.*)" should still be in the list$/, (entry) => {
-  //     expect(vm.journals[0].title).toEqual(entry);
-  //   });
-  //
-  //   and('The pending deletion should be removed', () => {
-  //     expect(vm.pendingDeletion).toBeNull();
-  //   });
-  // });
+  test('A journal can be deleted from the list', ({ given, when, then }) => {
+    given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
+      await journalController.add(journal);
 
+      await journalPresenter.getJournals((journalVm) => {
+        vm = journalVm;
+      });
+      expect(vm.getJournals()[0].title).toEqual(entry);
+    });
+
+    when('I delete the journal item from the list', async () => {
+      await journalController.delete(Journal.create(vm.getJournals()[0])); // Could probably just pass an id here.
+    });
+
+    then(/^The journal item "(.*)" should no longer be in the list$/, async () => {
+      await journalPresenter.getJournals((journals) => {
+        vm = journals;
+      });
+      expect(vm.getJournals.length).toBe(0);
+    });
+  });
+
+  test('A journal can be set as a favorite', ({ given, when, then, and }) => {
+    given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
+      await journalController.add(journal);
+
+      await journalPresenter.getJournals((journals) => {
+        vm = journals;
+      });
+      expect(vm.getJournals()[0].title).toEqual(entry);
+      expect(vm.getJournals()[0].isFavorite).toBe(false);
+    });
+
+    when('The journal entry is set as a favorite', async () => {
+      await journalController.setFavorite(Journal.create(vm.getJournals()[0]));
+    });
+
+    then(/^The journal entry "(.*)" should be marked as a favorite$/, async (entry) => {
+      await journalPresenter.getJournals((journals) => {
+        vm = journals;
+      });
+      expect(vm.getJournals()[0].title).toEqual(entry);
+      expect(vm.getJournals()[0].isFavorite).toBe(true);
+    });
+
+    and(/^The favorite journal "(.*)" should be saved to the client storage repository$/, async (entry) => {
+      const favorites = await journalPresenter.loadFavoriteJournals();
+      expect(favorites.length).toBe(1);
+      expect(favorites[0].title).toEqual(entry);
+    });
+  });
+
+  test('Delete a journal that is marked as a favorite', ({ given, and, when, then }) => {
+    given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
+      await journalController.add(journal);
+
+      await journalPresenter.getJournals((journals) => {
+        vm = journals;
+      });
+      expect(vm.getJournals()[0].title).toEqual(entry);
+    });
+
+    and('The journal entry is set as a favorite', async () => {
+      await journalController.setFavorite(Journal.create(vm.getJournals()[0]));
+      expect(vm.getJournals()[0].isFavorite).toBe(true);
+    });
+
+    when('I delete the journal item from the list', async () => {
+      await journalController.delete(Journal.create(vm.getJournals()[0]));
+    });
+
+    and('It is set for pending deletion', () => {
+      expect(vm.getPendingDeletion()?.id).toEqual(vm.getJournals()[0].id)
+    });
+
+    and('I confirm the deletion', async () => {
+      const journalController = app.getJournalModule().getJournalController();
+      await journalController.delete(Journal.create(vm.getJournals()[0]));
+      expect(vm.getPendingDeletion()).toBeNull();
+    });
+
+    then(/^The journal item "(.*)" should no longer be in the list$/, (entry) => {
+      expect(vm.getJournals().length).toEqual(0);
+      expect(vm.getJournals().filter((f) => f.title === entry).length).toEqual(0);
+    });
+
+    and(/^The favorite journal "(.*)" should be removed from the client storage repository$/, async (entry) => {
+      const journalPresenter = app.getJournalModule().getJournalPresenter();
+      const favorites = await journalPresenter.loadFavoriteJournals();
+      expect(favorites.length).toBe(0);
+      expect(vm.getJournals().filter((f) => f.title === entry).length).toEqual(0);
+    });
+  });
+
+  test('A journal pending delete can be cancelled', ({ given, and, when, then }) => {
+    given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
+      await journalController.add(journal);
+
+      await journalPresenter.getJournals((journals) => {
+        vm = journals;
+      });
+      expect(vm.getJournals()[0].title).toEqual(entry);
+    });
+
+    and('The journal entry is set as a favorite', async () => {
+      await journalController.setFavorite(Journal.create(vm.getJournals()[0]));
+      expect(vm.getJournals()[0].isFavorite).toBe(true);
+    });
+
+    when('I delete the journal item from the list', async () => {
+      await journalController.delete(Journal.create(vm.getJournals()[0]));
+    });
+
+    and('It is set for pending deletion', () => {
+      expect(vm.getPendingDeletion()?.id).toEqual(vm.getJournals()[0].id)
+    });
+
+    when('I cancel the deletion', () => {
+      journalController.resetPendingDeletion();
+    });
+
+    then(/^The journal item "(.*)" should still be in the list$/, (entry) => {
+      expect(vm.getJournals()[0].title).toEqual(entry);
+    });
+
+    and('The pending deletion should be removed', () => {
+      expect(vm.getPendingDeletion()).toBeNull();
+    });
+  });
 });

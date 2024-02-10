@@ -5,9 +5,8 @@ import { useConfirmationModal } from "./components/ConfirmationModal/useConfirma
 import { ConfirmationModal as ConfirmationModalComponent } from "./components/ConfirmationModal";
 
 import './App.css'
-import { JournalPresenter } from "./modules/journal/journalPresenter.ts";
+import { JournalPresenter, JournalViewModel } from "./modules/journal/journalPresenter.ts";
 import { JournalController } from "./modules/journal/journalController.ts";
-import { JournalState } from "./modules/journal/journalRepository.ts";
 import { Journal } from "./modules/journal/journal.ts";
 
 export type FormInput = {
@@ -25,10 +24,7 @@ interface AppProps {
 }
 
 function App({ presenter, controller }: AppProps) {
-  const [journalVm, setJournalVm] = useState<JournalState>({
-    journals: [],
-    pendingDeletion: null,
-  });
+  const [journalVm, setJournalVm] = useState<JournalViewModel>(new JournalViewModel({ journals: [], pendingDeletion: null }));
 
   const {
     showModal,
@@ -50,8 +46,8 @@ function App({ presenter, controller }: AppProps) {
   };
 
   useEffect(() => {
-    presenter.getJournals((journalState: JournalState) => {
-      setJournalVm({...journalState});
+    presenter.getJournals((journalVm: JournalViewModel) => {
+      setJournalVm(journalVm);
     });
   }, [presenter, setJournalVm]);
 
@@ -66,8 +62,8 @@ function App({ presenter, controller }: AppProps) {
           setShowModal(false);
         }}
         onConfirm={() => {
-          const pending = presenter.getPendingDeletion();
-          if (pending === null) {
+          const pending = journalVm.getPendingDeletion();
+          if (!pending) {
             setShowModal(false);
             return;
           }
@@ -95,7 +91,7 @@ function App({ presenter, controller }: AppProps) {
             presenter.hasJournals() ? (
               <ul id="journal-list">
                 {
-                  journalVm.journals.map((journal) => (
+                  journalVm.getJournals().map((journal) => (
                     <li key={journal.id} className="flex mb-4 border p-2 text-left pl-6 items-center">
                       <p className="w-full text-grey-darkest">{journal.title}</p>
                       <button

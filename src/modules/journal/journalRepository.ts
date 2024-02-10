@@ -4,7 +4,7 @@ import { ClientStorageRepository } from "./clientStorageRepository.ts";
 
 export interface JournalState {
   journals: JournalDTO[];
-  pendingDeletion: Journal | null;
+  pendingDeletion: JournalDTO | null;
 }
 
 export class JournalRepository {
@@ -45,14 +45,14 @@ export class JournalRepository {
     }
 
     const { pendingDeletion, journals } = this.journalState.getValue();
-    if (pendingDeletion && pendingDeletion.getId() === journal.getId()) {
+    if (pendingDeletion && pendingDeletion.id === journal.getId()) {
       const newJournals = journals.filter(v => v.id !== journal.getId());
       this.journalState.setValue({journals: newJournals, pendingDeletion: null});
       await this.clientRepository.delete(journal.getId());
       this.journalState.setValue({...this.journalState.getValue(), pendingDeletion: null});
       return;
     }
-    this.journalState.setValue({...this.journalState.getValue(), pendingDeletion: journal});
+    this.journalState.setValue({...this.journalState.getValue(), pendingDeletion: journal.toPersistence()});
   }
 
   async setFavorite(journal: Journal) {

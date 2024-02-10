@@ -66,7 +66,12 @@ function App({ presenter, controller }: AppProps) {
           setShowModal(false);
         }}
         onConfirm={() => {
-          controller.delete(presenter.getPendingDeletion())
+          const pending = presenter.getPendingDeletion();
+          if (pending === null) {
+            setShowModal(false);
+            return;
+          }
+          controller.delete(Journal.create(pending));
           setShowModal(false);
         }}
       />

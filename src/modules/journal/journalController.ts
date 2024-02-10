@@ -14,7 +14,7 @@ export class JournalController {
     if (!journal) {
       return;
     }
-    // If the journal si not a favorite, just delete it.
+    // If the journal is not a favorite, just delete it.
     if (!journal.getIsFavorite()) {
       await this.journalRepository.delete(journal);
       return;

@@ -25,10 +25,10 @@ Feature: Journal Management
     Then The journal item "The weather is great" should no longer be in the list
     And The favorite journal "The weather is great" should be removed from the client storage repository
 
-#  Scenario: A journal pending delete can be cancelled
-#    And The journal entry is set as a favorite
-#    When I delete the journal item from the list
-#    And It is set for pending deletion
-#    When I cancel the deletion
-#    Then The journal item "The weather is great" should still be in the list
-#    And The pending deletion should be removed
+  Scenario: A journal pending delete can be cancelled
+    And The journal entry is set as a favorite
+    When I delete the journal item from the list
+    And It is set for pending deletion
+    When I cancel the deletion
+    Then The journal item "The weather is great" should still be in the list
+    And The pending deletion should be removed

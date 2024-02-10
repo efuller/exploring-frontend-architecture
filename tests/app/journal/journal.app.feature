@@ -12,11 +12,11 @@ Feature: Journal Management
     When I delete the journal item from the list
     Then The journal item "The weather is great" should no longer be in the list
 
-#  Scenario: A journal can be set as a favorite
-#    When The journal entry is set as a favorite
-#    Then The journal entry "The weather is great" should be marked as a favorite
-#    And The favorite journal "The weather is great" should be saved to the client storage repository
-#
+  Scenario: A journal can be set as a favorite
+    When The journal entry is set as a favorite
+    Then The journal entry "The weather is great" should be marked as a favorite
+    And The favorite journal "The weather is great" should be saved to the client storage repository
+
 #  Scenario: Delete a journal that is marked as a favorite
 #    And The journal entry is set as a favorite
 #    When I delete the journal item from the list

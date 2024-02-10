@@ -72,41 +72,36 @@ defineFeature(feature, (test) => {
     });
   });
 
-//   test('A journal can be set as a favorite', ({ given, when, then, and }) => {
-//     given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
-//       const newJournal: Journal = {
-//         id: IdGenerator.generateId(),
-//         title: entry,
-//         isFavorite: false
-//       };
-//       await journalController.add(newJournal);
-//
-//       await journalPresenter.getJournals((journals) => {
-//         vm = journals;
-//       });
-//       expect(vm.journals[0].title).toEqual(entry);
-//       expect(vm.journals[0].isFavorite).toBe(false);
-//     });
-//
-//     when('The journal entry is set as a favorite', async () => {
-//       await journalController.setFavorite(vm.journals[0]);
-//     });
-//
-//     then(/^The journal entry "(.*)" should be marked as a favorite$/, async (entry) => {
-//       await journalPresenter.getJournals((journals) => {
-//         vm = journals;
-//       });
-//       expect(vm.journals[0].title).toEqual(entry);
-//       expect(vm.journals[0].isFavorite).toBe(true);
-//     });
-//
-//     and(/^The favorite journal "(.*)" should be saved to the client storage repository$/, async (entry) => {
-//       const favorites = await journalPresenter.loadFavoriteJournals();
-//       expect(favorites.length).toBe(1);
-//       expect(favorites[0].title).toEqual(entry);
-//     });
-//   });
-//
+  test('A journal can be set as a favorite', ({ given, when, then, and }) => {
+    given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
+      await journalController.add(journal);
+
+      await journalPresenter.getJournals((journals) => {
+        vm = journals;
+      });
+      expect(vm.journals[0].title).toEqual(entry);
+      expect(vm.journals[0].isFavorite).toBe(false);
+    });
+
+    when('The journal entry is set as a favorite', async () => {
+      await journalController.setFavorite(Journal.create(vm.journals[0]));
+    });
+
+    then(/^The journal entry "(.*)" should be marked as a favorite$/, async (entry) => {
+      await journalPresenter.getJournals((journals) => {
+        vm = journals;
+      });
+      expect(vm.journals[0].title).toEqual(entry);
+      expect(vm.journals[0].isFavorite).toBe(true);
+    });
+
+    and(/^The favorite journal "(.*)" should be saved to the client storage repository$/, async (entry) => {
+      const favorites = await journalPresenter.loadFavoriteJournals();
+      expect(favorites.length).toBe(1);
+      expect(favorites[0].title).toEqual(entry);
+    });
+  });
+
 //   test('Delete a journal that is marked as a favorite', ({ given, and, when, then }) => {
 //     given(/^There is a journal named "(.*)" in the journal list$/, async (entry) => {
 //       const newJournal: Journal = {

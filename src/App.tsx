@@ -8,6 +8,7 @@ import './App.css'
 import { JournalPresenter } from "./modules/journal/journalPresenter.ts";
 import { JournalController } from "./modules/journal/journalController.ts";
 import { JournalState } from "./modules/journal/journalRepository.ts";
+import { Journal } from "./modules/journal/journal.ts";
 
 export type FormInput = {
   title: string;
@@ -99,12 +100,12 @@ function App({ presenter, controller }: AppProps) {
                             : 'flex-no-shrink p-2 ml-4 mr-2 border-2 rounded hover:text-white text-green border-green hover:bg-green'
                         )}
                         disabled={journal.isFavorite}
-                        onClick={() => controller.setFavorite(journal)}
+                        onClick={() => controller.setFavorite(Journal.create(journal))}
                       >Favorite</button>
                       <button
                         className="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red"
                         onClick={() => {
-                          controller.delete(journal)
+                          controller.delete(Journal.create(journal));
                           setShowModal(true);
                         }}
                       >Delete</button>

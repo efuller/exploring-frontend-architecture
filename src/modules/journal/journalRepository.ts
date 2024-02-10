@@ -1,9 +1,9 @@
 import Observable from "../../shared/observable/observable.ts";
-import { Journal } from "./journal.ts";
+import { Journal, JournalDTO } from "./journal.ts";
 import { ClientStorageRepository } from "./clientStorageRepository.ts";
 
 export interface JournalState {
-  journals: Journal[];
+  journals: JournalDTO[];
   pendingDeletion: Journal | null;
 }
 
@@ -26,7 +26,7 @@ export class JournalRepository {
 
   async add(journal: Journal) {
     this.journalState.setValue({
-      journals: [...this.journalState.getValue().journals, journal],
+      journals: [...this.journalState.getValue().journals, journal.toPersistence()],
       pendingDeletion: null,
     });
   }
@@ -37,18 +37,18 @@ export class JournalRepository {
 
   async delete(journal: Journal) {
     // If journal is not a favorite, just delete it
-    if (!journal.isFavorite) {
+    if (!journal.getIsFavorite()) {
       const journalState = this.journalState.getValue();
-      const newJournals = journalState.journals.filter(v => v.id !== journal.id);
+      const newJournals = journalState.journals.filter(v => v.id !== journal.getId());
       this.journalState.setValue({...journalState, journals: newJournals});
       return;
     }
 
     const { pendingDeletion, journals } = this.journalState.getValue();
-    if (pendingDeletion && pendingDeletion.id === journal.id) {
-      const newJournals = journals.filter(v => v.id !== journal.id);
+    if (pendingDeletion && pendingDeletion.getId() === journal.getId()) {
+      const newJournals = journals.filter(v => v.id !== journal.getId());
       this.journalState.setValue({journals: newJournals, pendingDeletion: null});
-      await this.clientRepository.delete(journal.id);
+      await this.clientRepository.delete(journal.getId());
       this.journalState.setValue({...this.journalState.getValue(), pendingDeletion: null});
       return;
     }
@@ -57,9 +57,9 @@ export class JournalRepository {
 
   async setFavorite(journal: Journal) {
     const { journals } = this.journalState.getValue();
-    const newJournals = journals.map(f => {
-      if (f.id === journal.id) {
-        return {...journal, isFavorite: !journal.isFavorite};
+    const newJournals: JournalDTO[] = journals.map(f => {
+      if (f.id === journal.getId()) {
+        return {...journal.toPersistence(), isFavorite: !journal.getIsFavorite()};
       }
       return f;
     });

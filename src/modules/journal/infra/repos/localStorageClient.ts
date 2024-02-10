@@ -1,5 +1,5 @@
 import { ClientStorageRepository } from "../../clientStorageRepository.ts";
-import { Journal } from "../../journal.ts";
+import { Journal, JournalDTO } from "../../journal.ts";
 
 export class LocalStorageClient implements ClientStorageRepository {
   private readonly LOCAL_STORAGE_KEY = "journal";
@@ -7,7 +7,7 @@ export class LocalStorageClient implements ClientStorageRepository {
   async add(journal: Journal) {
     // check if journal is already in localStorage
     const journals = await this.getAll();
-    const exists = journals.find(item => item.id === journal.id);
+    const exists = journals.find(item => item.id === journal.getId());
     if (exists) {
       return;
     }
@@ -27,7 +27,7 @@ export class LocalStorageClient implements ClientStorageRepository {
     localStorage.setItem(this.LOCAL_STORAGE_KEY, JSON.stringify(newJournals));
   }
 
-  async getAll(): Promise<Journal[]> {
+  async getAll(): Promise<JournalDTO[]> {
     const journals = [];
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);

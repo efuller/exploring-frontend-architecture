@@ -1,15 +1,15 @@
-import { Journal } from "../../journal.ts";
+import { Journal, JournalDTO } from "../../journal.ts";
 import { ClientStorageRepository } from "../../clientStorageRepository.ts";
 
 export class InMemoryClientStorage implements ClientStorageRepository {
-  private journals: Journal[];
+  private journals: JournalDTO[];
 
   constructor() {
     this.journals = [];
   }
 
   async add(journal: Journal) {
-    this.journals.push(journal);
+    this.journals.push(journal.toPersistence());
   }
 
   async delete(id: string) {

@@ -1,12 +1,9 @@
-import { Journal } from "./journal.ts";
+import { CreateJournalDTO, Journal } from "./journal.ts";
 import { JournalRepository } from "./journalRepository.ts";
-import { FormInput } from "../../App.tsx";
-import { IdGenerator } from "../../shared/idGenerator/idGenerator.ts";
 
 export class JournalController {
   constructor(
     private readonly journalRepository: JournalRepository,
-    // public confirmationModal: ConfirmationModal
   ) {}
 
   async add(journal: Journal) {
@@ -18,7 +15,7 @@ export class JournalController {
       return;
     }
     // If the journal si not a favorite, just delete it.
-    if (!journal.isFavorite) {
+    if (!journal.getIsFavorite()) {
       await this.journalRepository.delete(journal);
       return;
     }
@@ -28,19 +25,15 @@ export class JournalController {
   }
 
   async setFavorite(journal: Journal) {
-    if (journal.isFavorite) {
+    if (journal.getIsFavorite()) {
       return;
     }
 
     await this.journalRepository.setFavorite(journal);
   }
 
-  async addFromFormSubmit(createJournalInput: FormInput) {
-    const newJournal: Journal = {
-      ...createJournalInput,
-      id: IdGenerator.generateId(),
-      isFavorite: false,
-    };
+  async addFromFormSubmit(createJournalInput: CreateJournalDTO) {
+    const newJournal = Journal.create(createJournalInput);
 
     await this.add(newJournal);
   }

@@ -4,6 +4,7 @@ import { App } from "../../../src/shared/app/app";
 import { Journal } from "../../../src/modules/journal/journal";
 import { JournalController } from "../../../src/modules/journal/journalController";
 import { JournalPresenter, JournalViewModel } from "../../../src/modules/journal/journalPresenter";
+import { ClientStorageFixture } from "../../../src/shared/fixtures/ClientStorageFixture";
 
 const feature = loadFeature('tests/app/journal/journal.app.feature');
 
@@ -174,6 +175,28 @@ defineFeature(feature, (test) => {
 
     and('The pending deletion should be removed', () => {
       expect(vm.getPendingDeletion()).toBeNull();
+    });
+  });
+
+  test('App is hydrated with favorite journal entries on load', ({ given, when, then}) => {
+    given(/^The client storage repository has a favorite journal entry "(.*)"$/, async () => {
+      const clientStorageFixture = new ClientStorageFixture(compositionRoot);
+      journal.setIsFavorite(true);
+      await clientStorageFixture.setupClientStorageWithJournalEntry(journal);
+    });
+
+    when('The app is loaded', async () => {
+      const journalRepo = compositionRoot.getJournalRepository();
+      await journalRepo?.hydrateFromClientStorage();
+
+      await journalPresenter.getJournals((journalVm) => {
+        vm = journalVm;
+      });
+    });
+
+    then(/^The favorite journal "(.*)" should be in the list of journal entries$/, (entry) => {
+      expect(vm.getJournals()[0].title).toEqual(entry);
+      expect(vm.getJournals()[0].isFavorite).toEqual(true);
     });
   });
 });

@@ -12,6 +12,8 @@ type Context = "test" | "dev" | "prod";
 export class CompositionRoot {
   private readonly context: Context;
   private readonly app: App;
+  private clientStorage: ClientStorageRepository | undefined;
+  private journalRepository: JournalRepository | undefined;
 
   constructor(context: Context = "dev") {
     this.context = context;
@@ -20,16 +22,15 @@ export class CompositionRoot {
   }
 
   createJournalModule() {
-    let clientStorage: ClientStorageRepository;
-
     if (this.context === "test") {
-      clientStorage = new InMemoryClientStorage();
+      this.clientStorage = new InMemoryClientStorage();
     } else {
-      clientStorage = new LocalStorageClient();
+      this.clientStorage = new LocalStorageClient();
     }
-    const journalRepository = new JournalRepository(clientStorage);
-    const journalController = new JournalController(journalRepository);
-    const journalPresenter = new JournalPresenter(journalRepository, clientStorage);
+
+    this.journalRepository = new JournalRepository(this.clientStorage);
+    const journalController = new JournalController(this.journalRepository);
+    const journalPresenter = new JournalPresenter(this.journalRepository, this.clientStorage);
     return new JournalModule(
       journalController,
       journalPresenter,
@@ -38,6 +39,14 @@ export class CompositionRoot {
 
   getApp() {
     return this.app;
+  }
+
+  getClientStorage() {
+    return this.clientStorage;
+  }
+
+  getJournalRepository() {
+    return this.journalRepository;
   }
 }
 

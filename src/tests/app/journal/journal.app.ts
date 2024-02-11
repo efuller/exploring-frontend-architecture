@@ -1,12 +1,12 @@
 import { defineFeature, loadFeature } from "jest-cucumber";
-import { CompositionRoot } from "../../../src/shared/compositionRoot/compositionRoot";
-import { App } from "../../../src/shared/app/app";
-import { Journal } from "../../../src/modules/journal/journal";
-import { JournalController } from "../../../src/modules/journal/journalController";
-import { JournalPresenter, JournalViewModel } from "../../../src/modules/journal/journalPresenter";
-import { ClientStorageFixture } from "../../../src/shared/fixtures/ClientStorageFixture";
+import { CompositionRoot } from "../../../shared/compositionRoot/compositionRoot.ts";
+import { App } from "../../../shared/app/app.ts";
+import { Journal } from "../../../modules/journal/journal.ts";
+import { JournalController } from "../../../modules/journal/journalController.ts";
+import { JournalPresenter, JournalViewModel } from "../../../modules/journal/journalPresenter.ts";
+import { ClientStorageFixture } from "../../../shared/fixtures/ClientStorageFixture.ts";
 
-const feature = loadFeature('tests/app/journal/journal.app.feature');
+const feature = loadFeature('src/tests/app/journal/journal.app.feature');
 
 defineFeature(feature, (test) => {
   let compositionRoot: CompositionRoot;

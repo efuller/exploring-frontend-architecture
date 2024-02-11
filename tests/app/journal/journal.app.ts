@@ -11,7 +11,6 @@ defineFeature(feature, (test) => {
   let compositionRoot: CompositionRoot;
   let app: App;
   let vm: JournalViewModel;
-  // let pendingDeletion: JournalDTO | null;
   let journalController: JournalController;
   let journalPresenter: JournalPresenter;
   let journal: Journal;
@@ -23,7 +22,6 @@ defineFeature(feature, (test) => {
     journalController = app.getJournalModule().getJournalController();
     journalPresenter = app.getJournalModule().getJournalPresenter();
     vm = new JournalViewModel({ journals: [], pendingDeletion: null });
-    // pendingDeletion = null;
   });
 
   test('I can create a new journal entry', ({given, when, then}) => {

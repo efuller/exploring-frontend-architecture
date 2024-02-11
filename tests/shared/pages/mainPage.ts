@@ -1,6 +1,6 @@
 import { PuppeteerPageDriver } from "../driver/pupeteerPageDriver";
 import { PageComponents } from "../pageComponents";
-import { createJournalDto } from "../../../src/dto/createJournalDto";
+import { CreateJournalDTO } from "../../../src/modules/journal/journal";
 
 export class MainPage {
   private components: PageComponents;
@@ -22,7 +22,7 @@ export class MainPage {
     });
   }
 
-  async addNewJournal(newJournal: createJournalDto) {
+  async addNewJournal(newJournal: CreateJournalDTO) {
     await this.components.load();
     await this.components.get('journalInput').type(newJournal.title);
     await this.components.get('submitBtn').click();

@@ -1,13 +1,13 @@
 import { loadFeature, defineFeature } from 'jest-cucumber';
 import { MainPage } from "../../shared/pages/mainPage";
 import { PuppeteerPageDriver } from "../../shared/driver/pupeteerPageDriver";
-import { createJournalDto } from "../../../src/dto/createJournalDto";
+import { CreateJournalDTO } from "../../../src/modules/journal/journal";
 
 const feature = loadFeature('tests/e2e/journal/journal.feature');
 
 defineFeature(feature, (test) => {
   test('Adding a journal', ({ given, when, then }) => {
-    let newJournalInput: createJournalDto;
+    let newJournalInput: CreateJournalDTO;
     let pageDriver: PuppeteerPageDriver;
     let mainPage: MainPage;
 

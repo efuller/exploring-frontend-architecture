@@ -19,6 +19,14 @@ const config: Config = {
         '^.+\\.(t|j)sx?$': ['ts-jest', {}],
       },
     },
+    {
+      displayName: 'infra',
+      testEnvironment: 'jsdom',
+      testMatch: ['**/@(src|tests)/**/*.@(infra).*'],
+      transform: {
+        '^.+\\.(t|j)sx?$': ['ts-jest', {}],
+      },
+    },
   ],
 }
 

@@ -14,4 +14,8 @@ export class JournalViewModel {
   showConfirmationModal() {
     return this.props.showConfirmationModal && this.props.pendingDeletion !== null;
   }
+
+  hasJournals() {
+    return this.props.journals.length > 0;
+  }
 }

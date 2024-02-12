@@ -24,10 +24,6 @@ export class JournalPresenter {
     });
   }
 
-  hasJournals() {
-    return this.journalRepo.hasJournals();
-  }
-
   async loadFavoriteJournals() {
     return await this.clientRepo.getAll();
   }

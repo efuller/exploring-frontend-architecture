@@ -1,17 +1,6 @@
 import { JournalRepository, JournalState } from "./journalRepository.ts";
 import { ClientStorageRepository } from "./clientStorageRepository.ts";
-
-export class JournalViewModel {
-  constructor(private props: JournalState) {}
-
-  getJournals() {
-    return this.props.journals;
-  }
-
-  getPendingDeletion() {
-    return this.props.pendingDeletion;
-  }
-}
+import { JournalViewModel } from "./journalViewModel.ts";
 
 export class JournalPresenter {
   private vm: JournalViewModel;
@@ -28,8 +17,8 @@ export class JournalPresenter {
   }
 
   async getJournals(componentCb: (vm: JournalViewModel) => void) {
-    await this.journalRepo.loadJournals((journalsCache) => {
-      this.buildViewModel(journalsCache);
+    await this.journalRepo.loadJournals((journalState) => {
+      this.buildViewModel(journalState);
       // Map over the journalState and return a new view model.
       componentCb(this.vm);
     });
@@ -37,10 +26,6 @@ export class JournalPresenter {
 
   hasJournals() {
     return this.journalRepo.hasJournals();
-  }
-
-  getPendingDeletion() {
-    return this.journalRepo.getPendingDeletion();
   }
 
   async loadFavoriteJournals() {

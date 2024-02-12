@@ -3,8 +3,9 @@ import { CompositionRoot } from "../../../shared/compositionRoot/compositionRoot
 import { App } from "../../../shared/app/app.ts";
 import { Journal } from "../../../modules/journal/journal.ts";
 import { JournalController } from "../../../modules/journal/journalController.ts";
-import { JournalPresenter, JournalViewModel } from "../../../modules/journal/journalPresenter.ts";
+import { JournalPresenter } from "../../../modules/journal/journalPresenter.ts";
 import { ClientStorageFixture } from "../../../shared/fixtures/ClientStorageFixture.ts";
+import { JournalViewModel } from "../../../modules/journal/journalViewModel.ts";
 
 const feature = loadFeature('src/tests/app/journal/journal.app.feature');
 

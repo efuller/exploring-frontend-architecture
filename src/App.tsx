@@ -5,9 +5,10 @@ import { useConfirmationModal } from "./components/ConfirmationModal/useConfirma
 import { ConfirmationModal as ConfirmationModalComponent } from "./components/ConfirmationModal";
 
 import './App.css'
-import { JournalPresenter, JournalViewModel } from "./modules/journal/journalPresenter.ts";
+import { JournalPresenter } from "./modules/journal/journalPresenter.ts";
 import { JournalController } from "./modules/journal/journalController.ts";
-import { Journal } from "./modules/journal/journal.ts";
+import { CreateJournalDTO, Journal } from "./modules/journal/journal.ts";
+import { JournalViewModel } from "./modules/journal/journalViewModel.ts";
 
 export type FormInput = {
   title: string;
@@ -23,8 +24,11 @@ interface AppProps {
   controller: JournalController;
 }
 
-function App({ presenter, controller }: AppProps) {
-  const [journalVm, setJournalVm] = useState<JournalViewModel>(new JournalViewModel({ journals: [], pendingDeletion: null }));
+function App({presenter, controller}: AppProps) {
+  const [journalVm, setJournalVm] = useState<JournalViewModel>(new JournalViewModel({
+    journals: [],
+    pendingDeletion: null
+  }));
 
   const {
     showModal,
@@ -82,8 +86,12 @@ function App({ presenter, controller }: AppProps) {
             <h1 className="text-grey-darkest">Favorite Journals</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex mt-4">
-                <input {...register('title', { required: true })} required className="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker" id="journal-input" placeholder="Add Journal" />
-                <button id="submit-btn" type="submit" className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal">Add</button>
+                <input {...register('title', {required: true})} required
+                       className="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker"
+                       id="journal-input" placeholder="Add Journal"/>
+                <button id="submit-btn" type="submit"
+                        className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal">Add
+                </button>
               </div>
             </form>
           </div>
@@ -91,7 +99,7 @@ function App({ presenter, controller }: AppProps) {
             presenter.hasJournals() ? (
               <ul id="journal-list">
                 {
-                  journalVm.getJournals().map((journal) => (
+                  journalVm.getJournals().map((journal: CreateJournalDTO) => (
                     <li key={journal.id} className="flex mb-4 border p-2 text-left pl-6 items-center">
                       <p className="w-full text-grey-darkest">{journal.title}</p>
                       <button

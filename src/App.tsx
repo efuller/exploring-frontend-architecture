@@ -54,7 +54,7 @@ function App({presenter, controller}: AppProps) {
     return (
       <ConfirmationModalComponent
         cancelButtonRef={cancelButtonRef}
-        vm={journalVm}
+        show={journalVm.showConfirmationModal()}
         onCancel={() => {
           controller.resetPendingDeletion();
         }}

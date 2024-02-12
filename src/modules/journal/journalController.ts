@@ -41,4 +41,8 @@ export class JournalController {
   resetPendingDeletion() {
     this.journalRepository.resetPendingDeletion();
   }
+
+  setConfirmationModal() {
+    this.journalRepository.setConfirmationModal();
+  }
 }

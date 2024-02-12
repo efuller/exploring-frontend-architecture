@@ -13,7 +13,7 @@ export class JournalPresenter {
   ) {
     this.journalRepo = journalRepo;
     this.clientRepo = clientRepo;
-    this.vm = new JournalViewModel({ journals: [], pendingDeletion: null });
+    this.vm = new JournalViewModel({ journals: [], pendingDeletion: null, showConfirmationModal: false });
   }
 
   async getJournals(componentCb: (vm: JournalViewModel) => void) {

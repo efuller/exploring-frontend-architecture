@@ -1,20 +1,21 @@
 import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/24/outline'
+import { JournalViewModel } from "../../modules/journal/journalViewModel.ts";
 
 type ConfirmationModalProps = {
   cancelButtonRef: React.RefObject<HTMLButtonElement>;
+  vm: JournalViewModel;
   onConfirm: () => void;
   onCancel: () => void;
-  showModal: boolean;
-  setShowModal: (open: boolean) => void;
+  onClose: (open: boolean) => void;
 }
 
-export const ConfirmationModal = ({ showModal, setShowModal, onConfirm, onCancel, cancelButtonRef }: ConfirmationModalProps) => {
+export const ConfirmationModal = ({ vm, onCancel, onClose, onConfirm, cancelButtonRef }: ConfirmationModalProps) => {
 
   return (
-    <Transition.Root show={showModal} as={Fragment}>
-      <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setShowModal}>
+    <Transition.Root show={vm.showConfirmationModal()} as={Fragment}>
+      <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={onClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

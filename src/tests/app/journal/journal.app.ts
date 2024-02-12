@@ -23,7 +23,7 @@ defineFeature(feature, (test) => {
     journal = Journal.create({ title: "The weather is great" });
     journalController = app.getJournalModule().getJournalController();
     journalPresenter = app.getJournalModule().getJournalPresenter();
-    vm = new JournalViewModel({ journals: [], pendingDeletion: null });
+    vm = new JournalViewModel({ journals: [], pendingDeletion: null, showConfirmationModal: false });
   });
 
   test('I can create a new journal entry', ({given, when, then}) => {

@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { useConfirmationModal } from "./components/ConfirmationModal/useConfirmationModal.ts";
 import { ConfirmationModal as ConfirmationModalComponent } from "./components/ConfirmationModal";
 
 import './App.css'
@@ -27,14 +26,10 @@ interface AppProps {
 function App({presenter, controller}: AppProps) {
   const [journalVm, setJournalVm] = useState<JournalViewModel>(new JournalViewModel({
     journals: [],
-    pendingDeletion: null
+    pendingDeletion: null,
+    showConfirmationModal: false,
   }));
-
-  const {
-    showModal,
-    setShowModal,
-    cancelButtonRef,
-  } = useConfirmationModal();
+  const cancelButtonRef = useRef(null)
 
   const {
     register,
@@ -55,30 +50,23 @@ function App({presenter, controller}: AppProps) {
     });
   }, [presenter, setJournalVm]);
 
-  useEffect(() => {
-    if (journalVm.getPendingDeletion()) {
-      setShowModal(true);
-    }
-  }, [journalVm, setShowModal]);
-
-  if (showModal) {
+  if (journalVm.showConfirmationModal() ) {
     return (
       <ConfirmationModalComponent
         cancelButtonRef={cancelButtonRef}
-        showModal={showModal}
-        setShowModal={setShowModal}
+        vm={journalVm}
         onCancel={() => {
           controller.resetPendingDeletion();
-          setShowModal(false);
+        }}
+        onClose={() => {
+          controller.setConfirmationModal();
         }}
         onConfirm={async () => {
           const pending = journalVm.getPendingDeletion();
           if (!pending) {
-            setShowModal(false);
             return;
           }
           await controller.delete(Journal.create(pending));
-          setShowModal(false);
         }}
       />
     )

@@ -10,5 +10,8 @@ export class JournalViewModel {
   getPendingDeletion() {
     return this.props.pendingDeletion;
   }
-}
 
+  showConfirmationModal() {
+    return this.props.showConfirmationModal && this.props.pendingDeletion !== null;
+  }
+}

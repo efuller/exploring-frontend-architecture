@@ -55,6 +55,12 @@ function App({presenter, controller}: AppProps) {
     });
   }, [presenter, setJournalVm]);
 
+  useEffect(() => {
+    if (journalVm.getPendingDeletion()) {
+      setShowModal(true);
+    }
+  }, [journalVm, setShowModal]);
+
   if (showModal) {
     return (
       <ConfirmationModalComponent
@@ -65,13 +71,13 @@ function App({presenter, controller}: AppProps) {
           controller.resetPendingDeletion();
           setShowModal(false);
         }}
-        onConfirm={() => {
+        onConfirm={async () => {
           const pending = journalVm.getPendingDeletion();
           if (!pending) {
             setShowModal(false);
             return;
           }
-          controller.delete(Journal.create(pending));
+          await controller.delete(Journal.create(pending));
           setShowModal(false);
         }}
       />
@@ -113,9 +119,8 @@ function App({presenter, controller}: AppProps) {
                       >Favorite</button>
                       <button
                         className="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red"
-                        onClick={() => {
-                          controller.delete(Journal.create(journal));
-                          setShowModal(true);
+                        onClick={async () => {
+                          await controller.delete(Journal.create(journal));
                         }}
                       >Delete</button>
                     </li>

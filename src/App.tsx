@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
 
 import { ConfirmationModal as ConfirmationModalComponent } from "./components/ConfirmationModal";
 
+import { JournalPresenter } from "./modules/journal/journalPresenter";
+import { JournalController } from "./modules/journal/journalController";
+import { CreateJournalDTO, Journal } from "./modules/journal/journal";
+import { JournalViewModel } from "./modules/journal/journalViewModel";
+import { JournalForm } from "./components/journal";
 import './App.css'
-import { JournalPresenter } from "./modules/journal/journalPresenter.ts";
-import { JournalController } from "./modules/journal/journalController.ts";
-import { CreateJournalDTO, Journal } from "./modules/journal/journal.ts";
-import { JournalViewModel } from "./modules/journal/journalViewModel.ts";
 
 export type FormInput = {
   title: string;
@@ -31,17 +31,8 @@ function App({presenter, controller}: AppProps) {
   }));
   const cancelButtonRef = useRef(null)
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-  } = useForm<FormInput>();
-
   const onSubmit = async (data: FormInput) => {
     await controller.addFromFormSubmit(data);
-
-    // Reset form.
-    reset();
   };
 
   useEffect(() => {
@@ -78,16 +69,7 @@ function App({presenter, controller}: AppProps) {
         <div className="bg-white rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg">
           <div className="mb-8">
             <h1 className="text-grey-darkest">Favorite Journals</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="flex mt-4">
-                <input {...register('title', {required: true})} required
-                       className="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker"
-                       id="journal-input" placeholder="Add Journal"/>
-                <button id="submit-btn" type="submit"
-                        className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal">Add
-                </button>
-              </div>
-            </form>
+            <JournalForm onSubmit={onSubmit} />
           </div>
           {
             presenter.hasJournals() ? (

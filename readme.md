@@ -7,6 +7,18 @@ You can check it out [﻿here](https://exploring-frontend-architecture.onrender.
 
 ![Screenshot 2023-06-26 at 7 31 00 PM](https://github.com/efuller/exploring-frontend-architecture/assets/4174472/86f45d92-1357-4942-9ef2-daf61a664037 "")
 
+## Concepts Explored
+- Using Puppeteer for E2E acceptance testing
+- Using a Page Object Model to make E2E less volatile and more declarative
+- Application level acceptance testing
+- Cucumber + Gherkins
+- Composition Root Pattern
+- Reactivity via a custom observer
+- Outgoing contract test to ensure our inMemory client storage stub works as intended
+- Use Presenters to wire up the UI Framework to the application state
+- Use Controllers to perform application use cases
+- Use the concept of a Repository to manage and act upon global application state
+- Utilize Dependency Inversion to interface with a Client Storage Repository. This allows us to create a proper stub for testing
 ## Functionality
 - A user can add a journal entry
 - A user can delete a journal entry
@@ -15,15 +27,10 @@ You can check it out [﻿here](https://exploring-frontend-architecture.onrender.
 - When a favorite is deleted, the user will have to confirm deletion
 ---
 
-![General Architecture](/.eraser/f9Z5mwS6LKSmIUNbnTRi___YzvcTKoiYxfvjTVEmHkkLRz706J3___---figure---xa2qINRBT8jJF7VTgOWvw---figure---CCUc806duYk9SsUSOQEUVA.png "General Architecture")
+![General Architecture](/.eraser/f9Z5mwS6LKSmIUNbnTRi___YzvcTKoiYxfvjTVEmHkkLRz706J3___---figure---PZ3OXDYgO4BBS8F9VbmPC---figure---CCUc806duYk9SsUSOQEUVA.png "General Architecture")
 
-## Changelog
-### 09-24-2023
-- Added a basic e2e test for adding a food item
-    - Implemented the idea of Page Objects and Page Components
-- Deployed this app to Render.com
-    - Used Github Actions to deploy
-    - After successful deployment, e2e tests are run
+
+
 
 
 

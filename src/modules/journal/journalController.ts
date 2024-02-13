@@ -20,7 +20,6 @@ export class JournalController {
       return;
     }
     // If the journal is a favorite, open the confirmation window and set it to pending deletion.
-    // this.confirmationModal.openModal();
     await this.journalRepository.delete(journal);
   }
 

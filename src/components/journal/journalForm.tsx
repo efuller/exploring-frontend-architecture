@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
-import { FormInput } from "../../App.tsx";
 import { useEffect } from "react";
+import { CreateJournalDTO } from "../../modules/journal/journal.ts";
 
 type JournalFormProps = {
-  onSubmit: (data: FormInput) => void;
+  onSubmit: (data: CreateJournalDTO) => void;
 }
 
 export const JournalForm = ({ onSubmit }: JournalFormProps) => {
@@ -12,7 +12,7 @@ export const JournalForm = ({ onSubmit }: JournalFormProps) => {
     handleSubmit,
     formState: { isSubmitSuccessful },
     reset
-  } = useForm<FormInput>();
+  } = useForm<CreateJournalDTO>();
 
   useEffect(() => {
     if (isSubmitSuccessful) {

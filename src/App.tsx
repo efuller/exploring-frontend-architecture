@@ -4,14 +4,10 @@ import { ConfirmationModal as ConfirmationModalComponent } from "./components/Co
 
 import { JournalPresenter } from "./modules/journal/journalPresenter";
 import { JournalController } from "./modules/journal/journalController";
-import { Journal } from "./modules/journal/journal";
+import { CreateJournalDTO, Journal } from "./modules/journal/journal";
 import { JournalViewModel } from "./modules/journal/journalViewModel";
 import { JournalForm, JournalList } from "./components/journal";
 import './App.css'
-
-export type FormInput = {
-  title: string;
-};
 
 interface AppProps {
   presenter: JournalPresenter;
@@ -26,7 +22,7 @@ function App({presenter, controller}: AppProps) {
   }));
   const cancelButtonRef = useRef(null)
 
-  const onSubmit = async (data: FormInput) => {
+  const onSubmit = async (data: CreateJournalDTO) => {
     await controller.addFromFormSubmit(data);
   };
 

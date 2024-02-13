@@ -46,7 +46,6 @@ export class MainPage {
   }
 
   async open() {
-    console.log('ENV', process.env.NODE_ENV);
     let url = 'https://explore-frontend-architecture.onrender.com/';
 
     if (process.env.NODE_ENV === 'test') {

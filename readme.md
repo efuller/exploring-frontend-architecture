@@ -3,7 +3,7 @@ This is a small frontend application that was built to explore different variati
 
 You can check it out [﻿here](https://exploring-frontend-architecture.onrender.com/).
 
-![Screenshot 2023-06-26 at 7 31 00 PM](https://github.com/efuller/exploring-frontend-architecture/assets/4174472/86f45d92-1357-4942-9ef2-daf61a664037 "")
+<img width="878" alt="Screenshot 2024-02-13 at 6 42 51 AM" src="https://github.com/efuller/exploring-frontend-architecture/assets/4174472/e89e0158-2974-4a64-883e-c8ea27cc2677">
 
 ## Concepts Explored
 - Using **Puppeteer** for **E2E Acceptance Testing**

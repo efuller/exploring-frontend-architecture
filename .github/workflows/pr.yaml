@@ -1,0 +1,28 @@
+name: Lint, Test, and Build
+on:
+  pull_request:
+    branches: [main]
+jobs:
+    lint:
+      name: Lint
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+        - name: Cache dependencies
+          uses: actions/cache@v3
+          with:
+            path: ~/.npm
+            key: ${{ env.CACHE_KEY }}-${{ hashFiles('**/package-lock.json') }}
+        - name: Setup Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: 18.x
+        - name: Install dependencies
+          run: npm ci
+        - name: Lint
+          run: npm run lint
+        - name: Type check
+          run: npm run tsc
+        - name: App Tests
+          run: npm run test:app

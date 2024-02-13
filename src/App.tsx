@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import { ConfirmationModal as ConfirmationModalComponent } from "./components/ConfirmationModal";
+import { ConfirmationModal as ConfirmationModalComponent } from "./components/confirmationModal";
 
 import { JournalPresenter } from "./modules/journal/journalPresenter";
 import { JournalController } from "./modules/journal/journalController";

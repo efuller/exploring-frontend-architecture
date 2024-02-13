@@ -16,7 +16,8 @@
     "test:e2e": "jest --selectProjects e2e",
     "test:e2e:dev": "jest --selectProjects e2e --watchAll",
     "test:infra": "jest --selectProjects infra",
-    "test:infra:dev": "jest --selectProjects infra --watchAll"
+    "test:infra:dev": "jest --selectProjects infra --watchAll",
+    "tsc": "tsc --noEmit"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",

@@ -11,8 +11,12 @@ You can check it out [﻿here](https://exploring-frontend-architecture.onrender.
 - A user can add a journal entry
 - A user can delete a journal entry
 - A user can favorite a journal entry
-- Favorites are saved to local storage so they are persistent on page reloads
+- Favorites are saved to local storage. State is hydrated from the favorites stored in local storage upload load.
 - When a favorite is deleted, the user will have to confirm deletion
+---
+
+![General Architecture](/.eraser/f9Z5mwS6LKSmIUNbnTRi___YzvcTKoiYxfvjTVEmHkkLRz706J3___---figure---xa2qINRBT8jJF7VTgOWvw---figure---CCUc806duYk9SsUSOQEUVA.png "General Architecture")
+
 ## Changelog
 ### 09-24-2023
 - Added a basic e2e test for adding a food item

@@ -8,17 +8,20 @@ You can check it out [﻿here](https://exploring-frontend-architecture.onrender.
 ![Screenshot 2023-06-26 at 7 31 00 PM](https://github.com/efuller/exploring-frontend-architecture/assets/4174472/86f45d92-1357-4942-9ef2-daf61a664037 "")
 
 ## Concepts Explored
-- Using Puppeteer for E2E acceptance testing
-- Using a Page Object Model to make E2E less volatile and more declarative
-- Application level acceptance testing
-- Cucumber + Gherkins
-- Composition Root Pattern
-- Reactivity via a custom observer
-- Outgoing contract test to ensure our inMemory client storage stub works as intended
-- Use Presenters to wire up the UI Framework to the application state
-- Use Controllers to perform application use cases
-- Use the concept of a Repository to manage and act upon global application state
-- Utilize Dependency Inversion to interface with a Client Storage Repository. This allows us to create a proper stub for testing
+- Using **Puppeteer** for **E2E Acceptance Testing**
+- Using a **Page Object Model** to make E2E tests less volatile and more declarative
+- **Application Level Acceptance Testing**
+- **Cucumber + Gherkins**
+- **Composition Root Pattern**
+- **Reactivity** using the **Observer Pattern**
+- **Outgoing Contract Test** to ensure our in-memory client storage works as intended
+- **Presenters** wire up the **UI Framework** to the application state
+- **Controllers** perform A**pplication Use Cases**
+- **Repositories** manage and act upon G**lobal Application State**
+- **Dependency Inversion** is used to interface with a **Client Storage Interface**. This allows us to **Code to an Interface** and create a proper **Stub for Testing**
+- **Github Actions**
+    - Run **Application Acceptance Tests** and **Unit Tests** for PRs
+    - Run **E2E Tests** after deploy
 ## Functionality
 - A user can add a journal entry
 - A user can delete a journal entry
@@ -27,7 +30,7 @@ You can check it out [﻿here](https://exploring-frontend-architecture.onrender.
 - When a favorite is deleted, the user will have to confirm deletion
 ---
 
-![General Architecture](/.eraser/f9Z5mwS6LKSmIUNbnTRi___YzvcTKoiYxfvjTVEmHkkLRz706J3___---figure---PZ3OXDYgO4BBS8F9VbmPC---figure---CCUc806duYk9SsUSOQEUVA.png "General Architecture")
+![General Architecture](/.eraser/f9Z5mwS6LKSmIUNbnTRi___YzvcTKoiYxfvjTVEmHkkLRz706J3___---figure---YN8ciuCREnVWFFfnKvETo---figure---CCUc806duYk9SsUSOQEUVA.png "General Architecture")
 
 
 

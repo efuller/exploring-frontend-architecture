@@ -11,8 +11,8 @@ You can check it out [﻿here](https://exploring-frontend-architecture.onrender.
 - Using a **Page Object Model** to make E2E tests less volatile and more declarative ([link](tests/shared))
 - **Application Level Acceptance Testing** ([link](src/tests/app/journal))
 - **Cucumber + Gherkins**
-- **Composition Root Pattern** ([link](src/shared/compositionRoot))
-- **Reactivity** using the **Observer Pattern** ([link](src/shared/observable))
+- **Composition Root Pattern** ([link](src/shared/compositionRoot/compositionRoot.ts))
+- **Reactivity** using the **Observer Pattern** ([link](src/shared/observable/observable.ts))
 - **Presenters** wire up the **UI Framework** to the application state ([link](src/modules/journal/journalPresenter.ts))
 - **Controllers** perform **Application Use Cases** ([link](src/modules/journal/journalController.ts))
 - **Repositories** manage and act upon **Global Application State** ([link](src/modules/journal/journalRepository.ts))

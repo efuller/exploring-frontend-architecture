@@ -6,6 +6,13 @@ You can check it out [﻿here](https://exploring-frontend-architecture.onrender.
 
 <img width="878" alt="Screenshot 2024-02-13 at 6 42 51 AM" src="https://github.com/efuller/exploring-frontend-architecture/assets/4174472/e89e0158-2974-4a64-883e-c8ea27cc2677">
 
+## Functionality
+- A user can add a journal entry
+- A user can delete a journal entry
+- A user can favorite a journal entry
+- Favorites are saved to local storage. State is hydrated from the favorites stored in local storage upload load.
+- When a favorite is deleted, the user will have to confirm deletion
+
 ## Concepts Explored
 - Using **Puppeteer** for **E2E Acceptance Testing**
 - Using a **Page Object Model** to make E2E tests less volatile and more declarative ([link](tests/shared))
@@ -21,12 +28,6 @@ You can check it out [﻿here](https://exploring-frontend-architecture.onrender.
 - **Github Actions** ([link](.github/workflows))
     - Run **Application Acceptance Tests** and **Unit Tests** for PRs
     - Run **E2E Tests** after deploy
-## Functionality
-- A user can add a journal entry
-- A user can delete a journal entry
-- A user can favorite a journal entry
-- Favorites are saved to local storage. State is hydrated from the favorites stored in local storage upload load.
-- When a favorite is deleted, the user will have to confirm deletion
 ---
 
 ![General Architecture](/.eraser/f9Z5mwS6LKSmIUNbnTRi___YzvcTKoiYxfvjTVEmHkkLRz706J3___---figure---YN8ciuCREnVWFFfnKvETo---figure---CCUc806duYk9SsUSOQEUVA.png "General Architecture")

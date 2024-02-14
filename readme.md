@@ -8,17 +8,17 @@ You can check it out [﻿here](https://exploring-frontend-architecture.onrender.
 
 ## Concepts Explored
 - Using **Puppeteer** for **E2E Acceptance Testing**
-- Using a **Page Object Model** to make E2E tests less volatile and more declarative
-- **Application Level Acceptance Testing**
+- Using a **Page Object Model** to make E2E tests less volatile and more declarative ([link](tests/shared))
+- **Application Level Acceptance Testing** ([link](src/tests/app/journal))
 - **Cucumber + Gherkins**
-- **Composition Root Pattern**
-- **Reactivity** using the **Observer Pattern**
-- **Outgoing Contract Test** to ensure our in-memory client storage works as intended
-- **Presenters** wire up the **UI Framework** to the application state
-- **Controllers** perform A**pplication Use Cases**
-- **Repositories** manage and act upon G**lobal Application State**
-- **Dependency Inversion** is used to interface with a **Client Storage Interface**. This allows us to **Code to an Interface** and create a proper **Stub for Testing**
-- **Github Actions**
+- **Composition Root Pattern** ([link](src/shared/compositionRoot))
+- **Reactivity** using the **Observer Pattern** ([link](src/shared/observable))
+- **Presenters** wire up the **UI Framework** to the application state ([link](src/modules/journal/journalPresenter.ts))
+- **Controllers** perform **Application Use Cases** ([link](src/modules/journal/journalController.ts))
+- **Repositories** manage and act upon **Global Application State** ([link](src/modules/journal/journalRepository.ts))
+- **Dependency Inversion** is used to interface with a **Client Storage Interface**. This allows us to **Code to an Interface** and create a proper **Stub for Testing** ([link](src/modules/journal/infra))
+- **Outgoing Contract Test** to ensure our in-memory client storage works as intended ([link](src/tests/infra/clientStorage.infra.ts))
+- **Github Actions** ([link](.github/workflows))
     - Run **Application Acceptance Tests** and **Unit Tests** for PRs
     - Run **E2E Tests** after deploy
 ## Functionality

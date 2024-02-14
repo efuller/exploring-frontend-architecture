@@ -21,8 +21,8 @@ export const JournalList = ({ vm, controller }: JournalListProps) => {
     <ul id="journal-list">
       {
         vm.getJournals().map((journal: CreateJournalDTO) => (
-          <li key={journal.id} className="flex mb-4 border p-2 text-left pl-6 items-center">
-            <p className="w-full text-grey-darkest">{journal.title}</p>
+          <li key={journal.id} className="flex mb-4 border p-2 text-left pl-6 items-center journal-entry">
+            <p className="w-full text-grey-darkest journal-title">{journal.title}</p>
             <button
               className={classNames(
                 journal.isFavorite

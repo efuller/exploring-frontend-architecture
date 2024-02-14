@@ -21,7 +21,7 @@ export const JournalForm = ({ onSubmit }: JournalFormProps) => {
   }, [isSubmitSuccessful, reset]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form id="add-journal" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex mt-4">
         <input
           {...register('title', {required: true})}

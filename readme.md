@@ -16,7 +16,7 @@ You can check it out [﻿here](https://exploring-frontend-architecture.onrender.
 - **Presenters** wire up the **UI Framework** to the application state ([link](src/modules/journal/journalPresenter.ts))
 - **Controllers** perform **Application Use Cases** ([link](src/modules/journal/journalController.ts))
 - **Repositories** manage and act upon **Global Application State** ([link](src/modules/journal/journalRepository.ts))
-- **Dependency Inversion** is used to interface with a **Client Storage Interface**. This allows us to **Code to an Interface** and create a proper **Stub for Testing** ([link](src/modules/journal/infra/))
+- **Dependency Inversion** is used to interface with a **Client Storage Interface**. This allows us to **Code to an Interface** and create a proper **Stub for Testing** ([link](src/modules/journal/infra))
 - **Outgoing Contract Test** to ensure our in-memory client storage works as intended ([link](src/tests/infra/clientStorage.infra.ts))
 - **Github Actions** ([link](.github/workflows))
     - Run **Application Acceptance Tests** and **Unit Tests** for PRs

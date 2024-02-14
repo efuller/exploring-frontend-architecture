@@ -16,6 +16,10 @@ export class WebApp {
   }
 
   static async create(driver: PuppeteerPageDriver, baseUrl = 'http://localhost:5173/') {
+    if (process.env.NODE_ENV !== 'test') {
+      baseUrl = 'https://explore-frontend-architecture.onrender.com/';
+    }
+
     const app = new WebApp(driver, baseUrl);
     app.pageDriver.page.setDefaultTimeout(10000);
     await app.generatePages();

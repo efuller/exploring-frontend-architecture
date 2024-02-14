@@ -1,3 +1,4 @@
+![Tests Passing](https://github.com/efuller/exploring-frontend-architecture/actions/workflows/pr.yaml/badge.svg)
 # Exploring Frontend Architecture
 This is a small frontend application that was built to explore different variations of frontend architecture.
 

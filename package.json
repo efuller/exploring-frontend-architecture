@@ -31,6 +31,9 @@
     "vite": "^6.1.1"
   },
   "devDependencies": {
+    "@eslint/compat": "^1.2.7",
+    "@eslint/eslintrc": "^3.3.0",
+    "@eslint/js": "^9.21.0",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/vite": "^4.0.8",
     "@types/jest": "^29.5.14",
@@ -44,6 +47,7 @@
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^16.0.0",
     "jest": "^29.7.0",
     "jest-cucumber": "^4.5.0",
     "jest-environment-jsdom": "^29.7.0",

@@ -20,7 +20,7 @@ function App({presenter, controller}: AppProps) {
     pendingDeletion: null,
     showConfirmationModal: false,
   }));
-  const cancelButtonRef = useRef(null)
+  const cancelButtonRef = useRef<HTMLButtonElement>(undefined);
 
   const onSubmit = async (data: CreateJournalDTO) => {
     await controller.addFromFormSubmit(data);
@@ -35,7 +35,7 @@ function App({presenter, controller}: AppProps) {
   if (journalVm.showConfirmationModal() ) {
     return (
       <ConfirmationModalComponent
-        cancelButtonRef={cancelButtonRef}
+        cancelButtonRef={cancelButtonRef as React.RefObject<HTMLButtonElement>}
         show={journalVm.showConfirmationModal()}
         onCancel={() => {
           controller.resetPendingDeletion();

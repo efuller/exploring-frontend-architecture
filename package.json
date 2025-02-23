@@ -21,11 +21,11 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",
-    "@heroicons/react": "^2.0.18",
-    "axios": "^1.4.0",
+    "@heroicons/react": "^2.2.0",
+    "axios": "^1.7.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.45.0",
+    "react-hook-form": "^7.54.2",
     "uuid": "^9.0.0",
     "vite": "^4.3.9"
   },
@@ -37,7 +37,7 @@
     "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
-    "@vitejs/plugin-react-swc": "^3.0.0",
+    "@vitejs/plugin-react-swc": "^3.8.0",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.38.0",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -46,11 +46,11 @@
     "jest-cucumber": "^3.0.1",
     "jest-environment-jsdom": "^29.7.0",
     "jest-puppeteer": "^9.0.0",
-    "postcss": "^8.4.24",
+    "postcss": "^8.5.3",
     "puppeteer": "^21.3.1",
     "tailwindcss": "^3.3.2",
-    "ts-jest": "^29.1.1",
+    "ts-jest": "^29.2.6",
     "ts-node": "^10.9.2",
-    "typescript": "^5.0.2"
+    "typescript": "^5.7.3"
   }
 }

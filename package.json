@@ -49,7 +49,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-puppeteer": "^11.0.0",
     "postcss": "^8.5.3",
-    "puppeteer": "^21.3.1",
+    "puppeteer": "^24.2.1",
     "tailwindcss": "^4.0.8",
     "ts-jest": "^29.2.6",
     "ts-node": "^10.9.2",

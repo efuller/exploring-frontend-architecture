@@ -19,6 +19,9 @@
     "test:infra:dev": "jest --selectProjects infra --watchAll",
     "tsc": "tsc --noEmit"
   },
+  "engines": {
+    "node": ">=22.0.0 <23.0.0"
+  },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
